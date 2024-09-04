@@ -36,4 +36,7 @@ public abstract class Person {
     @Column(name = "birthYear")
     @NotNull
     private Date birthYear;
+    @Column(name = "type")
+    @NotNull
+    private String type;
 }

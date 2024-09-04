@@ -29,6 +29,16 @@ public class PatientService {
         return patients;
 
     }
+
+    public List<Patient> findAllAlunos(){
+        List<Patient> patients = this.patientRepository.findAllAlunos();
+        return patients;
+    }
+
+    public List<Patient> findAllComum(){
+        List<Patient> patients = this.patientRepository.findAllExterno();
+        return patients;
+    }
     public Patient findById(Long id){
         Optional<Patient> patient = patientRepository.findById(id);
         return patient.orElseThrow(() -> new BadRequestException(

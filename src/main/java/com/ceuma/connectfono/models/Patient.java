@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "patient")
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class Patient extends Person {
     @Id
@@ -26,6 +28,11 @@ public class Patient extends Person {
     @Column(name = "password", unique = false)
     @Size(min = 6, max = 18)
     private String password;
+
+    //@JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "ra", unique = true)
+    @Size(max = 6)
+    private String ra;
 
     @OneToMany(mappedBy = "patient")
     @JsonProperty(access = Access.WRITE_ONLY)

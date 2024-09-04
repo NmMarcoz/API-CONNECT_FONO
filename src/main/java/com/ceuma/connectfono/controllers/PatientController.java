@@ -24,44 +24,73 @@ public class PatientController {
     private PatientService patientService;
 
 
-
     @GetMapping("")
-    public ResponseEntity<List<Patient>> findAll(){
+    public ResponseEntity<List<Patient>> findAll() {
         System.out.println("entrou no get all");
-        try{
+        try {
             List<Patient> patients = this.patientService.findAll();
             return ResponseEntity.ok().body(patients);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @GetMapping("/alunos")
+    public ResponseEntity<List<Patient>> findAllAlunos() {
+        List<Patient> patients = this.patientService.findAllAlunos();
+        if (patients.isEmpty()) {
+            throw new BadRequestException("Não há alunos cadastrados");
+        }
+        return ResponseEntity.ok().body(patients);
+
+    }
+
+    @GetMapping("externos")
+    public ResponseEntity<List<Patient>> findAllExterno() {
+        //tirei o try e catch pq tem um global exception handler pegando as exceções
+        List<Patient> patients = this.patientService.findAllComum();
+        if (patients.size() == 0) {
+            throw new BadRequestException("Não há pacientes externos cadastrados");
+        }
+        return ResponseEntity.ok().body(patients);
+
+    }
+
     //depois trocar para Patient, pois ainda nao fiz os handlers
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id){
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
         System.out.println("entrou");
-        try{
-            if(id == null){
-                throw new BadRequestException("Id não pode ser nulo");
-            }
-            Patient patient = this.patientService.findById(id);
-            if(patient == null){
-                throw new BadRequestException("Não existe paciente com esse id");
-            }
-            return ResponseEntity.ok().body(patient);
-        }catch(RuntimeException e){
-            if(e instanceof BadRequestException){
-                throw new BadRequestException(e.getMessage());
-            }
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Um erro desconhecido aconteceu", e);
-            //throw new RuntimeException(e.getMessage());
+        if (id == null) {
+            throw new BadRequestException("Id não pode ser nulo");
         }
+        Patient patient = this.patientService.findById(id);
+        if (patient == null) {
+            throw new BadRequestException("Não existe paciente com esse id");
+        }
+        return ResponseEntity.ok().body(patient);
     }
 
     @PostMapping("")
-    public ResponseEntity<Patient> create(@RequestBody Patient obj){
-        System.out.println("Entrou");
-        if(obj.getCpf() == null || obj.getName() == null || obj.getEmail() == null || obj.getPhoneNumber() == null || obj.getBirthYear() == null){
-            throw new BadRequestException("Campos: CPF, Nome, Email, Numero de telefone e Data de Nascimento, são obrigatórios");
+    public ResponseEntity<Patient> create(@RequestBody Patient obj) {
+        if (
+                obj.getCpf() == null ||
+                        obj.getName() == null ||
+                        obj.getEmail() == null ||
+                        obj.getPhoneNumber() == null ||
+                        obj.getBirthYear() == null ||
+                        obj.getType() == null ||
+                        obj.getPassword() == null
+        ) {
+            throw new BadRequestException("Campos: CPF, Nome, Email, Numero de telefone, Senha, Data de Nascimento e Tipo do Paciente são obrigatórios");
+        }
+        obj.setType(obj.getType().toUpperCase());
+        if ((obj.getRa() == null) && obj.getType().equals("ALUNO")) {
+            throw new BadRequestException("Para alunos, o RA é obrigatório");
+        }
+
+        System.out.println(obj.getType());
+        if (!obj.getType().equals("ALUNO") && !obj.getType().equals("EXTERNO")) {
+            throw new BadRequestException("Tipo de paciente inválido. Válidos somente ALUNO ou EXTERNO");
         }
         this.patientService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -70,8 +99,8 @@ public class PatientController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Long id){
-        if(obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null && obj.getPassword() == null){
+    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Long id) {
+        if (obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null && obj.getPassword() == null) {
             throw new BadRequestException("Insira pelo menos um dos campos: Nome, Email, Senha ou Dependentes");
         }
         Patient newPatient = this.patientService.update(obj, id);
@@ -80,18 +109,19 @@ public class PatientController {
     }
 
 
-
     // BUILDRESPONSES abaixo
-    public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient){
+    public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient) {
         PatientResponse patientResponse = new PatientResponse(status, message, patient);
         return ResponseEntity.status(httpStatus).body(patientResponse);
     }
-    public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient, List<Patient> patients){
+
+    public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient, List<Patient> patients) {
         PatientResponse patientResponse = new PatientResponse(status, message);
         patientResponse.setPatients(patients);
         return ResponseEntity.status(httpStatus).body(patientResponse);
     }
-    public ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, String message, Exception exception){
+
+    public ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, String message, Exception exception) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
