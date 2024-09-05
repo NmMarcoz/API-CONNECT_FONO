@@ -23,7 +23,6 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-
     @GetMapping("")
     public ResponseEntity<List<Patient>> findAll() {
         System.out.println("entrou no get all");
@@ -76,12 +75,11 @@ public class PatientController {
                 obj.getCpf() == null ||
                         obj.getName() == null ||
                         obj.getEmail() == null ||
-                        obj.getPhoneNumber() == null ||
-                        obj.getBirthYear() == null ||
+
                         obj.getType() == null ||
                         obj.getPassword() == null
         ) {
-            throw new BadRequestException("Campos: CPF, Nome, Email, Numero de telefone, Senha, Data de Nascimento e Tipo do Paciente são obrigatórios");
+            throw new BadRequestException("Campos: CPF, Nome, Email, Senha e Tipo do Paciente são obrigatórios");
         }
         obj.setType(obj.getType().toUpperCase());
         if ((obj.getRa() == null) && obj.getType().equals("ALUNO")) {
