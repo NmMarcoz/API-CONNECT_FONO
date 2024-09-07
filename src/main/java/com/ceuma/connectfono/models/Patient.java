@@ -21,7 +21,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class Patient extends Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", unique = true)
     private Long id;
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -41,6 +41,10 @@ public class Patient extends Person {
 
     @OneToMany(mappedBy = "patient")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Consultation> consultations = new ArrayList<Consultation>();
+    private List<Consultation> consultations;
+
+    @OneToMany
+    @JsonProperty(access = Access.READ_ONLY)
+    private List<Schedule> schedules;
 
 }
