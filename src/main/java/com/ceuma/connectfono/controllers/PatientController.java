@@ -70,14 +70,14 @@ public class PatientController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Patient> create(@RequestBody Patient obj) {
-        if (
-                obj.getCpf() == null ||
-                        obj.getName() == null ||
-                        obj.getEmail() == null ||
+    public ResponseEntity<Object> create(@RequestBody Patient obj) {
 
-                        obj.getType() == null ||
-                        obj.getPassword() == null
+        if (
+                obj.getCpf().isEmpty() ||
+                        obj.getName().isEmpty()||
+                        obj.getEmail().isEmpty() ||
+                        obj.getType().isEmpty()||
+                        obj.getPassword().isEmpty()
         ) {
             throw new BadRequestException("Campos: CPF, Nome, Email, Senha e Tipo do Paciente são obrigatórios");
         }
@@ -92,7 +92,7 @@ public class PatientController {
         }
         this.patientService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(obj);
+        return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado", HttpStatus.CREATED, obj));
     }
 
 

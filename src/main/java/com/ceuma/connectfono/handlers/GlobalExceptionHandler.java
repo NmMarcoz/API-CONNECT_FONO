@@ -65,8 +65,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleDataIntegrityException(DataIntegrityViolationException dataIntegrityViolationException, WebRequest request){
-        final String errorMessage = "Não foi possível realizar a transação, campos duplicados";
-        log.error("Não foi possível realizar a transação, campos duplicados");
+        final String errorMessage = "Não foi possível realizar a transação. Motivo: Campos Duplicados";
+        log.error(errorMessage);
         return buildErrorResponse(
                 dataIntegrityViolationException,
                 errorMessage,
