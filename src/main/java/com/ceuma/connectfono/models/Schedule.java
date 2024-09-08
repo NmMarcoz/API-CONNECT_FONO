@@ -1,10 +1,13 @@
 package com.ceuma.connectfono.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -24,15 +27,17 @@ public class Schedule {
 
     @ManyToOne
     @NotNull
+    @JsonIgnore
     private Patient patient;
 
     @NotNull
     @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
+    @JsonBackReference
     private Consultation consultation;
 
     @NotNull
     private Date date;
     @NotNull
-    private String hour;
+    private Time hour;
 
 }

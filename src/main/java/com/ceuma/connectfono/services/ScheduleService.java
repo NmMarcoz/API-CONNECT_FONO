@@ -1,12 +1,14 @@
 package com.ceuma.connectfono.services;
 
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.models.Hour;
 import com.ceuma.connectfono.models.Schedule;
 import com.ceuma.connectfono.repositories.HourRepository;
 import com.ceuma.connectfono.repositories.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,7 @@ public class ScheduleService {
         return obj.orElseThrow(() -> new BadRequestException("Nenhum agendamento cadastrado com esse id"));
     }
 
-    public List<String> getAvailableHours(List<String> hour){
+    public List<Time> getAvailableHours(List<Time> hour){
         return this.hourRepository.getAvailableHours(hour);
     }
 

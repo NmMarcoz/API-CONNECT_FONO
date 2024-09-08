@@ -1,5 +1,6 @@
 package com.ceuma.connectfono.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DialectOverride;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "consultation")
@@ -36,7 +39,17 @@ public class Consultation {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonManagedReference
+
     private Schedule schedule;
+
+    @Column(name = "status")
+    private String status;
+    public enum statusType{
+        pendente,
+        confirmada,
+        cancelada,
+        concluida
+    }
 
 }

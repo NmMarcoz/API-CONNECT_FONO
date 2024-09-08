@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ public class ConsultationRequestDTO {
     private Consultation consultation;
 
     @JsonProperty("hour")
-    private String hour;
+    private Time hour;
 
     @JsonProperty("date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy-hh-mm")

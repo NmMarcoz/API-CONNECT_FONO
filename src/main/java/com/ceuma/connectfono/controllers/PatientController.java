@@ -5,6 +5,7 @@ import com.ceuma.connectfono.handlers.ErrorResponse;
 import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
+import com.ceuma.connectfono.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ import java.util.List;
 public class PatientController {
     @Autowired
     private PatientService patientService;
+
+
+    private final StringUtils stringUtils = new StringUtils();
 
     @GetMapping("")
     public ResponseEntity<List<Patient>> findAll() {
@@ -73,11 +77,11 @@ public class PatientController {
     public ResponseEntity<Object> create(@RequestBody Patient obj) {
 
         if (
-                obj.getCpf().isEmpty() ||
-                        obj.getName().isEmpty()||
-                        obj.getEmail().isEmpty() ||
-                        obj.getType().isEmpty()||
-                        obj.getPassword().isEmpty()
+                stringUtils.isNullOrEmpty(obj.getCpf()) ||
+                        stringUtils.isNullOrEmpty(obj.getName())||
+                        stringUtils.isNullOrEmpty(obj.getEmail()) ||
+                        stringUtils.isNullOrEmpty(obj.getType()) ||
+                        stringUtils.isNullOrEmpty(obj.getPassword())
         ) {
             throw new BadRequestException("Campos: CPF, Nome, Email, Senha e Tipo do Paciente são obrigatórios");
         }

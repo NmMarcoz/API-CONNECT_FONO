@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Time;
+
 @Getter
 @Setter
 @Entity
@@ -18,5 +20,5 @@ public class Hour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private String hour;
+    private Time hour;
 }
