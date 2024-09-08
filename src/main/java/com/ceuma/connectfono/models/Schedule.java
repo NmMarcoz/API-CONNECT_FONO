@@ -36,7 +36,7 @@ public class Schedule {
     private Consultation consultation;
 
     @NotNull
-    private Date date;
+    private LocalDate date;
     @NotNull
     private Time hour;
 

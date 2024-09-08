@@ -8,7 +8,10 @@ import com.ceuma.connectfono.repositories.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +44,17 @@ public class ScheduleService {
         return obj.orElseThrow(() -> new BadRequestException("Nenhum agendamento cadastrado com esse id"));
     }
 
+    public List<Schedule> findByDate(LocalDate date){
+        List<Schedule> schedules = scheduleRepository.findByDate(date);
+
+
+        return schedules;
+    }
+
     public List<Time> getAvailableHours(List<Time> hour){
+        if(hour == null || hour.isEmpty()){
+            return hourRepository.getAllHours();
+        }
         return this.hourRepository.getAvailableHours(hour);
     }
 

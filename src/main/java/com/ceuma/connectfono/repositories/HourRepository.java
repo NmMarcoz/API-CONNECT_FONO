@@ -11,4 +11,7 @@ import java.util.List;
 public interface HourRepository extends JpaRepository <Hour, Long>{
     @Query(value = "SELECT hour FROM hour WHERE hour NOT IN :hours",nativeQuery = true)
     List<Time> getAvailableHours(@Param("hours") List<Time> hours);
+
+    @Query(value = "SELECT hour FROM hour", nativeQuery = true)
+    List<Time> getAllHours();
 }

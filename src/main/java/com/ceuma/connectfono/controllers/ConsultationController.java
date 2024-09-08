@@ -11,6 +11,7 @@ import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.services.ScheduleService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,6 @@ import java.net.URI;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +39,7 @@ public class ConsultationController {
     @PostMapping("")
     public ResponseEntity<Consultation> create(@RequestBody ConsultationRequestDTO requestDTO) {
         Consultation obj = requestDTO.getConsultation();
+        Time requestHour = requestDTO.getHour();
 
         if (obj == null) {
             throw new BadRequestException("Request inválida");
@@ -51,13 +52,24 @@ public class ConsultationController {
             throw new BadRequestException("campos obrigatórios não informados");
         }
         obj.setStatus("pendente");
+        System.out.println("chegou aqui");
 
 
         // Pra implementar depois a função de verificar horas disponíveis
-        List<Consultation> consultations = this.consultationService.getAll();
-        List<Schedule> schedules = this.scheduleService.findAll();
+        List<Schedule> schedules = this.scheduleService.findByDate(requestDTO.getDate());
         List<Time> consultationsHours = new ArrayList<>();
         schedules.forEach(item -> consultationsHours.add(item.getHour()));
+
+        System.out.println("horários das consultas: " + consultationsHours);
+
+        List<Time> availableHours = scheduleService.getAvailableHours(consultationsHours);
+        System.out.println("Horas disponiveis para consultas nesse dia: " + availableHours);
+        System.out.println("Hora vindo da request: " + requestDTO.getHour());
+
+
+        if (!availableHours.contains(requestHour)) {
+            throw new BadRequestException("Não é possível agendar uma consulta nesse horário");
+        }
 
         //tenho que refatorar esse trechinho aqui do schedule, ta mto feio kkkk
         Schedule schedule = new Schedule();
