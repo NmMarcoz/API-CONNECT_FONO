@@ -51,6 +51,12 @@ public class ScheduleService {
         return schedules;
     }
 
+    public List<Schedule> findByDateWithFilters(LocalDate beginDate, LocalDate endDate){
+        List<Schedule> schedules = scheduleRepository.findByDateWithBeginAndEnd(beginDate, endDate);
+
+        return schedules;
+    }
+
     public List<Time> getAvailableHours(List<Time> hour){
         if(hour == null || hour.isEmpty()){
             return hourRepository.getAllHours();

@@ -14,4 +14,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query(value = "SELECT * FROM schedule WHERE DATE(date) = :dateToFind", nativeQuery = true)
     List<Schedule> findByDate(@Param("dateToFind") LocalDate dateToFind);
 
+    @Query(value = "SELECT * FROM schedule WHERE DATE(date) BETWEEN :beginDate AND :endDate", nativeQuery = true)
+    List<Schedule> findByDateWithBeginAndEnd(@Param("beginDate") LocalDate beginDate, @Param("endDate") LocalDate endDate);
+
 }

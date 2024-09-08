@@ -19,7 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,14 @@ public class ConsultationController {
     public ResponseEntity<Consultation> create(@RequestBody ConsultationRequestDTO requestDTO) {
         Consultation obj = requestDTO.getConsultation();
         Time requestHour = requestDTO.getHour();
+
+        if(requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()){
+            throw new BadRequestException("Não é possível agendar uma consulta para o passado");
+        }
+       //Implmentar depois a possibilidade de agendar uma consulta somente com 30 minutos de antecedência.
+//        if((requestDTO.getHour() - LocalTime.now().getHour()) < 30){
+//            throw new BadRequestException("Não é possível agendar uma consulta com menos de 30 minutos de antencedência.");
+//        }
 
         if (obj == null) {
             throw new BadRequestException("Request inválida");
