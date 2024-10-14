@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import javax.swing.text.html.Option;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
@@ -57,12 +59,18 @@ public class ScheduleService {
         return schedules;
     }
 
-    public List<Time> getAvailableHours(List<Time> hour){
+    public List<LocalTime> getAvailableHours(List<LocalTime> hour){
         if(hour == null || hour.isEmpty()){
-            return hourRepository.getAllHours();
+            List<Time> hours = this.hourRepository.getAllHours();
+            List<LocalTime> localTimes = hours.stream()
+                    .map(Time::toLocalTime)
+                    .collect(Collectors.toList());
+            return localTimes;
         }
-        return this.hourRepository.getAvailableHours(hour);
+        List<Time> hours = this.hourRepository.getAvailableHours(hour);
+        List<LocalTime> localTimes = hours.stream()
+                .map(Time::toLocalTime)
+                .collect(Collectors.toList());
+        return localTimes;
     }
-
-
 }

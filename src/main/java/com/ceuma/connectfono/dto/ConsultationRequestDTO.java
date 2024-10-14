@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -22,7 +23,7 @@ public class ConsultationRequestDTO {
     private Consultation consultation;
 
     @JsonProperty("hour")
-    private Time hour;
+    private LocalTime hour;
 
     @JsonProperty("date")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yy-MM-dd")

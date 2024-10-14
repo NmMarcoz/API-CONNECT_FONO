@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +38,10 @@ public class ScheduleController {
     @GetMapping("/available")
     public ResponseEntity<Object> findAllAvailableHours(  @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         List<Schedule> schedules = scheduleService.findByDate(date);
-        List<Time> schedulesHours = new ArrayList<>();
+        List<LocalTime> schedulesHours = new ArrayList<>();
         schedules.forEach(item -> schedulesHours.add(item.getHour()));
 
-        List<Time> availableHours = scheduleService.getAvailableHours(schedulesHours);
+        List<LocalTime> availableHours = scheduleService.getAvailableHours(schedulesHours);
 
         return ResponseEntity.ok().body(availableHours);
     }

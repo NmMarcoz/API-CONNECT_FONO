@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class FonoCareApplication {
-
 	public static void main(String[] args) {
 		Dotenv dotenv = Dotenv.load();
 		SpringApplication.run(FonoCareApplication.class, args);

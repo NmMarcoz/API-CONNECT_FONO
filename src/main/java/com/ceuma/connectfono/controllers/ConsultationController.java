@@ -41,16 +41,11 @@ public class ConsultationController {
     @PostMapping("")
     public ResponseEntity<Consultation> create(@RequestBody ConsultationRequestDTO requestDTO) {
         Consultation obj = requestDTO.getConsultation();
-        Time requestHour = requestDTO.getHour();
+        LocalTime requestHour = requestDTO.getHour();
 
         if(requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()){
             throw new BadRequestException("Não é possível agendar uma consulta para o passado");
         }
-       //Implmentar depois a possibilidade de agendar uma consulta somente com 30 minutos de antecedência.
-//        if((requestDTO.getHour() - LocalTime.now().getHour()) < 30){
-//            throw new BadRequestException("Não é possível agendar uma consulta com menos de 30 minutos de antencedência.");
-//        }
-
         if (obj == null) {
             throw new BadRequestException("Request inválida");
         }
@@ -64,15 +59,22 @@ public class ConsultationController {
         obj.setStatus("pendente");
         System.out.println("chegou aqui");
 
+        if(obj.getTitle().length() > 12){
+            throw new BadRequestException("tamanho inválido de titulo: 12 letras no máximo");
+        }
 
         // Pra implementar depois a função de verificar horas disponíveis
         List<Schedule> schedules = this.scheduleService.findByDate(requestDTO.getDate());
-        List<Time> consultationsHours = new ArrayList<>();
-        schedules.forEach(item -> consultationsHours.add(item.getHour()));
+        List<LocalTime> consultationsHours = new ArrayList<>();
+        if(schedules != null){
+            schedules.forEach(item -> consultationsHours.add(item.getHour()));
+        }
+
+        System.out.println("schedules" + schedules);
 
         System.out.println("horários das consultas: " + consultationsHours);
 
-        List<Time> availableHours = scheduleService.getAvailableHours(consultationsHours);
+        List<LocalTime> availableHours = scheduleService.getAvailableHours(consultationsHours);
         System.out.println("Horas disponiveis para consultas nesse dia: " + availableHours);
         System.out.println("Hora vindo da request: " + requestDTO.getHour());
 
@@ -109,6 +111,15 @@ public class ConsultationController {
     public ResponseEntity<Object> getAllConsultations() {
         List<Consultation> consultations = this.consultationService.getAll();
         return ResponseEntity.ok().body(consultations);
+    }
+
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable Long id) {
+        if (id == null) {
+            throw new BadRequestException("O campo id é obrigatório");
+        }
+        List<Consultation> consultation = consultationService.getByPatientId(id);
+        return ResponseEntity.ok().body(consultation);
     }
 
     @PostMapping("/consultation/{id}")
