@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
+public interface ConsultationRepository extends JpaRepository<Consultation, UUID> {
     @Query(value = "SELECT * FROM consultation WHERE  patient_id = :id", nativeQuery = true)
-    List <Consultation> getByPatientId(@Param("id") long id);
+    List <Consultation> getByPatientId(@Param("id") UUID id);
 }

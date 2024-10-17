@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StaffService {
@@ -28,7 +29,7 @@ public class StaffService {
         return staffs;
     }
 
-    public Staff getById(Long id){
+    public Staff getById(UUID id){
         Staff staff = this.staffRepository.findById(id).orElse(null);
         if(staff == null){
             throw new BadRequestException("sem staff cadastrado");

@@ -43,13 +43,11 @@ public class StaffController {
         if(Objects.isNull(staff)){
             throw new BadRequestException("Requisição inválida: Nenhum campo informado");
         }
-        if(stringUtils.isNullOrEmpty(staff.getCpf()) ||
-                stringUtils.isNullOrEmpty(staff.getEmail()) ||
+        if(stringUtils.isNullOrEmpty(staff.getEmail()) ||
                 stringUtils.isNullOrEmpty(staff.getPassword()) ||
                 stringUtils.isNullOrEmpty(staff.getName())){
             throw new BadRequestException("Requisição inválida: Campos obrigatórios não informados (cpf, email, password, name)");
         }
-        staff.setType("staff");
 
         Staff staffCreated = staffService.create(staff);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(staff.getId()).toUri();

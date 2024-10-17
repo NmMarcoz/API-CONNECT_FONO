@@ -31,10 +31,6 @@ public class Schedule {
     @JsonIgnore
     private Patient patient;
 
-    @NotNull
-    @OneToOne(mappedBy = "schedule", cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Consultation consultation;
 
     @NotNull
     private LocalDate date;

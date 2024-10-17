@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "date")
     private LocalDate date;

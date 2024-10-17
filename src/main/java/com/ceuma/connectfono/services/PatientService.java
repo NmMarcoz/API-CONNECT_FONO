@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PatientService {
@@ -39,7 +40,7 @@ public class PatientService {
         List<Patient> patients = this.patientRepository.findAllExterno();
         return patients;
     }
-    public Patient findById(Long id){
+    public Patient findById(UUID id){
         Optional<Patient> patient = patientRepository.findById(id);
         return patient.orElseThrow(() -> new BadRequestException(
                 "Paciente não encontrado"
@@ -58,7 +59,7 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient update(Patient obj, Long id){
+    public Patient update(Patient obj, UUID id){
         System.out.println(obj.getCpf());
         Patient newPatient = findById(id);
 //        if (obj.getCpf() != newPatient.getCpf()){
@@ -70,7 +71,7 @@ public class PatientService {
         newPatient.setName(obj.getName());
         newPatient.setDependents(obj.getDependents());
         newPatient.setEmail(obj.getEmail());
-        newPatient.setPassword(obj.getPassword());
+
 
         this.patientRepository.save(newPatient);
         return newPatient;

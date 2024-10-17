@@ -8,18 +8,20 @@ import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 @Getter
 @Setter
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Entity
+
 //@Table(name = "person")
 @MappedSuperclass
 public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    @Column(name = "id", unique = true)
+    private UUID id;
 
     @Column(name = "name")
     @NotNull

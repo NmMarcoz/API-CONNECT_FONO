@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,9 +18,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class Staff extends Person{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", unique = true)
-    private Long id;
+    private UUID id;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column (name = "password")

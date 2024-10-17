@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/patient")
@@ -61,7 +62,7 @@ public class PatientController {
 
     //depois trocar para Patient, pois ainda nao fiz os handlers
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
+    public ResponseEntity<Object> findById(@PathVariable UUID id) {
         System.out.println("entrou");
         if (id == null) {
             throw new BadRequestException("Id não pode ser nulo");
@@ -80,9 +81,7 @@ public class PatientController {
                 stringUtils.isNullOrEmpty(obj.getCpf()) ||
                         stringUtils.isNullOrEmpty(obj.getName())||
                         stringUtils.isNullOrEmpty(obj.getEmail()) ||
-                        stringUtils.isNullOrEmpty(obj.getType()) ||
-                        stringUtils.isNullOrEmpty(obj.getPassword())
-        ) {
+                        stringUtils.isNullOrEmpty(obj.getType())){
             throw new BadRequestException("Campos: CPF, Nome, Email, Senha e Tipo do Paciente são obrigatórios");
         }
         obj.setType(obj.getType().toUpperCase());
@@ -101,9 +100,9 @@ public class PatientController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Long id) {
-        if (obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null && obj.getPassword() == null) {
-            throw new BadRequestException("Insira pelo menos um dos campos: Nome, Email, Senha ou Dependentes");
+    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable UUID id) {
+        if (obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null) {
+            throw new BadRequestException("Insira pelo menos um dos campos: Nome, Email ou Dependentes");
         }
         Patient newPatient = this.patientService.update(obj, id);
 

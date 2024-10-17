@@ -13,6 +13,8 @@ import lombok.Setter;
 import org.hibernate.annotations.DialectOverride;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "consultation")
 @Getter
@@ -21,8 +23,9 @@ import org.springframework.beans.factory.annotation.Value;
 @NoArgsConstructor
 public class Consultation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private UUID id;
 
     @Column(name = "title")
     @Size(max = 12)

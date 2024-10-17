@@ -25,6 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/consultation")
@@ -83,7 +84,6 @@ public class ConsultationController {
         //tenho que refatorar esse trechinho aqui do schedule, ta mto feio kkkk
         Schedule schedule = new Schedule();
         schedule.setPatient(requestDTO.getConsultation().getPatient());
-        schedule.setConsultation(requestDTO.getConsultation());
         schedule.setDate(requestDTO.getDate());
         schedule.setHour(requestDTO.getHour());
 
@@ -91,12 +91,11 @@ public class ConsultationController {
         this.consultationService.create(obj);
 
         Schedule savedSchedule = this.scheduleService.create(schedule);
-        obj.setSchedule(savedSchedule);
+
         updateConsutation(obj, obj.getId());
 
         Patient patient = this.patientService.findById(obj.getPatient().getId());
         patient.setCpf(null);
-        patient.getSchedules().add(schedule);
         this.patientService.update(patient, patient.getId());
 
 
@@ -111,7 +110,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable Long id) {
+    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable UUID id) {
         if (id == null) {
             throw new BadRequestException("O campo id é obrigatório");
         }
@@ -120,7 +119,7 @@ public class ConsultationController {
     }
 
     @PostMapping("/consultation/{id}")
-    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable Long id) {
+    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable UUID id) {
         Consultation newConsultation = this.consultationService.update(obj, id);
         return ResponseEntity.ok().body(newConsultation);
 
