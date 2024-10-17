@@ -3,27 +3,18 @@ package com.ceuma.connectfono.controllers;
 import com.ceuma.connectfono.dto.ConsultationRequestDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Hour;
 import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.models.Schedule;
 import com.ceuma.connectfono.services.ConsultationService;
 import com.ceuma.connectfono.services.PatientService;
-import com.ceuma.connectfono.services.ScheduleService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,10 +23,6 @@ import java.util.UUID;
 public class ConsultationController {
     @Autowired
     ConsultationService consultationService;
-
-    @Autowired
-    ScheduleService scheduleService;
-
     @Autowired
     PatientService patientService;
 
@@ -61,36 +48,9 @@ public class ConsultationController {
             throw new BadRequestException("tamanho inválido de titulo: 12 letras no máximo");
         }
 
-        // Pra implementar depois a função de verificar horas disponíveis
-        List<Schedule> schedules = this.scheduleService.findByDate(requestDTO.getDate());
-        List<LocalTime> consultationsHours = new ArrayList<>();
-        if(schedules != null){
-            schedules.forEach(item -> consultationsHours.add(item.getHour()));
-        }
-
-        System.out.println("schedules" + schedules);
-
-        System.out.println("horários das consultas: " + consultationsHours);
-
-        List<LocalTime> availableHours = scheduleService.getAvailableHours(consultationsHours);
-        System.out.println("Horas disponiveis para consultas nesse dia: " + availableHours);
-        System.out.println("Hora vindo da request: " + requestDTO.getHour());
-
-
-        if (!availableHours.contains(requestHour)) {
-            throw new BadRequestException("Não é possível agendar uma consulta nesse horário");
-        }
-
-        //tenho que refatorar esse trechinho aqui do schedule, ta mto feio kkkk
-        Schedule schedule = new Schedule();
-        schedule.setPatient(requestDTO.getConsultation().getPatient());
-        schedule.setDate(requestDTO.getDate());
-        schedule.setHour(requestDTO.getHour());
-
 
         this.consultationService.create(obj);
 
-        Schedule savedSchedule = this.scheduleService.create(schedule);
 
         updateConsutation(obj, obj.getId());
 

@@ -5,7 +5,6 @@ import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Consultation;
 import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.repositories.ConsultationRepository;
-import com.ceuma.connectfono.repositories.HourRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

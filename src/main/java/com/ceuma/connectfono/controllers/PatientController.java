@@ -3,6 +3,7 @@ package com.ceuma.connectfono.controllers;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
 import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.repositories.PatientRepository;
 import com.ceuma.connectfono.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.utils.StringUtils;
@@ -25,8 +26,9 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-
     private final StringUtils stringUtils = new StringUtils();
+    @Autowired
+    private PatientRepository patientRepository;
 
     @GetMapping("")
     public ResponseEntity<List<Patient>> findAll() {
@@ -49,7 +51,7 @@ public class PatientController {
 
     }
 
-    @GetMapping("externos")
+    @GetMapping("/externos")
     public ResponseEntity<List<Patient>> findAllExterno() {
         //tirei o try e catch pq tem um global exception handler pegando as exceções
         List<Patient> patients = this.patientService.findAllComum();
@@ -94,14 +96,15 @@ public class PatientController {
             throw new BadRequestException("Tipo de paciente inválido. Válidos somente ALUNO ou EXTERNO");
         }
 
-
         obj.setGender(Character.toUpperCase(obj.getGender()));
+        if(obj.getGender() != 'M' && obj.getGender() != 'F') {
+            throw new BadRequestException("Gênero só pode ser M ou F");
+        }
 
         this.patientService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado", HttpStatus.CREATED, obj));
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable UUID id) {
@@ -113,6 +116,15 @@ public class PatientController {
         return ResponseEntity.ok().body(buildSuccessResponse(200, "paciente alterado com sucesso", HttpStatus.OK, newPatient));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+        Patient patient = this.patientService.findById(id);
+        if(patient == null){
+            throw new BadRequestException("O paciente não existe");
+        }
+        patientRepository.delete(patient);
+        return ResponseEntity.noContent().build();
+    }
 
     // BUILDRESPONSES abaixo
     public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient) {
