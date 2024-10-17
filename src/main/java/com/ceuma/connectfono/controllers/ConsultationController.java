@@ -49,13 +49,10 @@ public class ConsultationController {
         if (obj == null) {
             throw new BadRequestException("Request inválida");
         }
-        if (
-                obj.getTitle() == null || obj.getTitle().isEmpty() ||
-//                        obj.getSchedule() == null ||
-                        obj.getPatient() == null
-        ) {
+        if (obj.getTitle() == null || obj.getTitle().isEmpty() || obj.getPatient() == null) {
             throw new BadRequestException("campos obrigatórios não informados");
         }
+
         obj.setStatus("pendente");
         System.out.println("chegou aqui");
 

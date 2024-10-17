@@ -8,17 +8,13 @@ import lombok.*;
 @Getter
 @Setter
 @AllArgsConstructor
-
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public class Dependent extends Person{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
+    @Column(name ="relationship")
+    private String relationship;
 }
