@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -35,7 +33,8 @@ public class Patient extends Person {
 
     @Column(name = "birth_year")
     @NotNull
-    private LocalDate birthYear;
+    private LocalDate birth_year;
+
     @Column(name = "gender")
     @NotNull
     @Size(max = 1)

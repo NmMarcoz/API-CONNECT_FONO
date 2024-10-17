@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.NonNull;
 
-import java.util.Date;
 import java.util.UUID;
 
 
@@ -30,7 +28,7 @@ public abstract class Person {
 
     @Column(name = "phone_number", unique = true)
     @NotNull
-    private String phoneNumber;
+    private String phone_number;
 
     @Column(name = "email", unique = true)
     @NotNull

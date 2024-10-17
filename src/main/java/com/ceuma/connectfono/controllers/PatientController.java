@@ -82,7 +82,7 @@ public class PatientController {
                         stringUtils.isNullOrEmpty(obj.getName())||
                         stringUtils.isNullOrEmpty(obj.getEmail()) ||
                         stringUtils.isNullOrEmpty(obj.getType())){
-            throw new BadRequestException("Campos: CPF, Nome, Email, Senha e Tipo do Paciente são obrigatórios");
+            throw new BadRequestException("Campos: CPF, Nome, Email e Tipo do Paciente são obrigatórios");
         }
         obj.setType(obj.getType().toUpperCase());
         if ((obj.getRa() == null) && obj.getType().equals("ALUNO")) {
@@ -93,6 +93,10 @@ public class PatientController {
         if (!obj.getType().equals("ALUNO") && !obj.getType().equals("EXTERNO")) {
             throw new BadRequestException("Tipo de paciente inválido. Válidos somente ALUNO ou EXTERNO");
         }
+
+
+        obj.setGender(Character.toUpperCase(obj.getGender()));
+
         this.patientService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado", HttpStatus.CREATED, obj));
