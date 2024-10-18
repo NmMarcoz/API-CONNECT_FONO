@@ -27,4 +27,7 @@ public class Staff extends Person{
     @Size(min = 6)
     private String password;
 
+    @Column(name = "level")
+    private int level;
+
 }

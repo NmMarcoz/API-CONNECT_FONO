@@ -3,21 +3,20 @@ package com.ceuma.connectfono.controllers;
 import com.ceuma.connectfono.dto.AuthenticateResponseDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.repositories.StaffRepository;
 import com.ceuma.connectfono.services.StaffService;
 
 import com.ceuma.connectfono.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static ch.qos.logback.core.util.StringUtil.isNullOrEmpty;
 
@@ -28,6 +27,8 @@ public class StaffController {
     StaffService staffService;
 
     StringUtils stringUtils = new StringUtils();
+    @Autowired
+    private StaffRepository staffRepository;
 
     @GetMapping("")
     public ResponseEntity<List<Staff>> getAll(){
@@ -72,5 +73,15 @@ public class StaffController {
                         );
 
         return ResponseEntity.ok().body(authenticateResponseDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable UUID id){
+        Staff staff = staffRepository.findById(id).orElse(null);
+        if(staff == null){
+            throw new BadRequestException("nenhum staff encontrado");
+        }
+        staffRepository.delete(staff);
+        return ResponseEntity.noContent().build();
     }
 }

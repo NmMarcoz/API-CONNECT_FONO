@@ -43,4 +43,5 @@ public class MedicalRecord {
     @Column(name = "observations", columnDefinition = "TEXT")
     private String observations;
 
+
 }
