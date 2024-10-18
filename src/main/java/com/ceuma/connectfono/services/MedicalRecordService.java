@@ -17,25 +17,31 @@ public class MedicalRecordService {
     MedicalHistoryService medicalHistoryService;
     @Autowired
     QuestionsService questionsService;
-
+    @Autowired
     MedicalRecordRepository medicalRecordRepository;
 
     public MedicalRecordDTO create(MedicalRecordDTO medicalRecordDTO){
         MedicalRecord medicalRecord = medicalRecordDTO.getMedicalRecord();
-        MedicalHistory medicalHistory = medicalRecordDTO.getMedicalHistory();
+        //MedicalHistory medicalHistory = medicalRecordDTO.getMedicalHistory();
         List<Questions> questionsList = medicalRecordDTO.getQuestions();
+        MedicalHistory medicalHistory = new MedicalHistory();
+        MedicalHistory medicalHistorySaved = medicalHistoryService.create(medicalHistory);
         questionsList.forEach(questions -> {
-            questions.setMedicalHistory(medicalHistory);
+            questions.setMedicalHistory(medicalHistorySaved);
         });
+
+
+        MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
+        List<Questions> questionsSaved = questionsService.createLot(questionsList);
 
         medicalHistory.setMedicalRecord( medicalRecord);
         medicalHistory.setQuestions(questionsList);
 
-        MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
 
-        MedicalHistory medicalHistorySaved = medicalHistoryService.create(medicalHistory);
 
-        List<Questions> questionsSaved = questionsService.createLot(questionsList);
+
+
+
 
         MedicalRecordDTO medicalRecordDTOSaved = new MedicalRecordDTO(medicalRecordSaved, medicalHistorySaved, questionsSaved);
 

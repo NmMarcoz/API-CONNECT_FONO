@@ -6,6 +6,7 @@ import com.ceuma.connectfono.models.Questions;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import jakarta.persistence.Access;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,13 @@ import java.util.List;
 @Getter
 @Setter
 public class MedicalRecordDTO {
-    @JsonProperty("medical_record")
+    @JsonProperty(value = "medical_record")
+
     private MedicalRecord medicalRecord;
-    @JsonProperty("medical_history")
+    @JsonProperty(value = "medical_history")
+
     private MedicalHistory medicalHistory;
-    @JsonProperty("questions")
+    //@JsonProperty(value = "questions", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Questions> questions;
 }

@@ -1,5 +1,7 @@
 package com.ceuma.connectfono.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +20,11 @@ public class MedicalHistory {
 
     @OneToOne
     @JoinColumn(name = "medical_record_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private MedicalRecord medicalRecord;
 
     @OneToMany
+    @JsonManagedReference
     private List<Questions> questions;
 
 }

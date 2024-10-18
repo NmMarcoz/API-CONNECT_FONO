@@ -21,6 +21,9 @@ public class MedicalRecord {
     @Column(name = "id")
     private UUID id;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "date")
     private LocalDate date;
 
