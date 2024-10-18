@@ -39,6 +39,22 @@ public class StaffController {
         return ResponseEntity.ok().body(staffs);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Staff> getById(@PathVariable UUID id){
+        Staff staff = staffService.getById(id);
+        return ResponseEntity.ok().body(staff);
+    }
+
+    @GetMapping("cpf/{cpf}")
+    public ResponseEntity<Staff> getByCpf(@PathVariable String cpf){
+        System.out.println(cpf);
+        if(cpf.isEmpty() || cpf.isBlank() || cpf.equals(":cpf")){
+            throw new BadRequestException("Insira um cpf válido");
+        }
+        Staff staff = staffService.getByCpf(cpf);
+        return ResponseEntity.ok().body(staff);
+    }
+
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody Staff staff){
         if(Objects.isNull(staff)){

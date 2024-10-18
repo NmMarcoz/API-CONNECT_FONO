@@ -37,6 +37,14 @@ public class StaffService {
         }
         return staff;
     }
+
+    public Staff getByCpf(String cpf){
+        Staff staff = staffRepository.findByCpf(cpf).orElseThrow(
+                ()-> new BadRequestException("Não existe um staff cadastrado com esse cpf")
+        );
+        return staff;
+    }
+
     public Staff login(String email, String password){
         Staff staff = this.staffRepository.login(email, password);
         if(staff == null){
