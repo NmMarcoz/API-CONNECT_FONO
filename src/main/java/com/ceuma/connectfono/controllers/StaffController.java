@@ -4,6 +4,7 @@ import com.ceuma.connectfono.dto.AuthenticateResponseDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
+import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.responses.StaffResponse;
 import com.ceuma.connectfono.services.StaffService;
 
@@ -131,11 +132,13 @@ public class StaffController {
     }
 
     public Object buildSuccessResponse(int status, String message){
-        StaffResponse staffResponse = new StaffResponse(status, message);
-        return staffResponse;
+        GenericResponse genericResponse = new GenericResponse(status, message);
+        return genericResponse;
     }
 
     public Object buildSuccessResponse(int status, String message, Staff staff){
         return new StaffResponse(status, message, staff);
     }
+
+
 }
