@@ -21,6 +21,19 @@ public class StaffService {
         this.staffRepository.save(obj);
         return obj;
     }
+
+    @Transactional
+    public Staff update(UUID id,Staff obj){
+        Staff newStaff = staffRepository.findById(id).orElseThrow(
+                () -> new BadRequestException("Não existe um staff com esse id"));
+        newStaff.setLevel(obj.getLevel());
+        newStaff.setPassword(obj.getPassword());
+        newStaff.setEmail(obj.getEmail());
+        newStaff.setPhone_number(obj.getPhone_number());
+        newStaff.setCpf(obj.getCpf());
+
+        return staffRepository.save(newStaff);
+    }
     public List<Staff> getAll(){
         List<Staff> staffs = this.staffRepository.findAll();
         if(staffs == null){

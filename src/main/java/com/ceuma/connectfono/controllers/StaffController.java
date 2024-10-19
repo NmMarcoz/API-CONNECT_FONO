@@ -71,6 +71,15 @@ public class StaffController {
         return ResponseEntity.created(uri).body(staffCreated);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody Staff staff){
+        if(Objects.isNull(staff)){
+            throw new BadRequestException("Insira ao menos um campo");
+        }
+        Staff newStaff = staffService.update(id, staff);
+        return ResponseEntity.ok().body(newStaff);
+    }
+
     @PostMapping("/auth")
     public ResponseEntity<Object> authenticate(@RequestBody Staff staff){
         if(isNullOrEmpty(staff.getEmail()) || isNullOrEmpty(staff.getPassword())){
