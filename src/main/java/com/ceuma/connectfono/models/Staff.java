@@ -31,6 +31,6 @@ public class Staff extends Person{
     private String cpf;
 
     @Column(name = "level")
-    private int level;
+    private Integer level;
 
 }

@@ -4,6 +4,7 @@ import com.ceuma.connectfono.dto.AuthenticateResponseDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
+import com.ceuma.connectfono.responses.StaffResponse;
 import com.ceuma.connectfono.services.StaffService;
 
 import com.ceuma.connectfono.utils.StringUtils;
@@ -76,8 +77,27 @@ public class StaffController {
         if(Objects.isNull(staff)){
             throw new BadRequestException("Insira ao menos um campo");
         }
-        Staff newStaff = staffService.update(id, staff);
-        return ResponseEntity.ok().body(newStaff);
+        Staff  dbStaff = staffService.getById(id);
+        if(staff.getLevel() != null){
+            dbStaff.setLevel(staff.getLevel());
+        }
+        if(staff.getName() != null){
+            dbStaff.setName(staff.getName());
+        }
+        if(staff.getEmail() != null){
+            dbStaff.setEmail(staff.getEmail());
+        }
+        if(staff.getPassword() != null){
+            dbStaff.setPassword(staff.getPassword());
+        }
+        if(staff.getCpf()!= null){
+            dbStaff.setCpf(staff.getCpf());
+        }
+        if(staff.getPhone_number() != null){
+            dbStaff.setPhone_number(staff.getPhone_number());
+        }
+        Staff newStaff = staffService.update(id, dbStaff);
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "Atualizado com sucesso"));
     }
 
     @PostMapping("/auth")
@@ -108,5 +128,10 @@ public class StaffController {
         }
         staffRepository.delete(staff);
         return ResponseEntity.noContent().build();
+    }
+
+    public Object buildSuccessResponse(int status, String message){
+        StaffResponse staffResponse = new StaffResponse(status, message);
+        return staffResponse;
     }
 }
