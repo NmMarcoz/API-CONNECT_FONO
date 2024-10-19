@@ -134,4 +134,8 @@ public class StaffController {
         StaffResponse staffResponse = new StaffResponse(status, message);
         return staffResponse;
     }
+
+    public Object buildSuccessResponse(int status, String message, Staff staff){
+        return new StaffResponse(status, message, staff);
+    }
 }
