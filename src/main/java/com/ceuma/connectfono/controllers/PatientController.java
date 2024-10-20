@@ -4,6 +4,7 @@ import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
 import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.repositories.PatientRepository;
+import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.utils.StringUtils;
@@ -103,7 +104,7 @@ public class PatientController {
 
         this.patientService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado", HttpStatus.CREATED, obj));
+        return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado"));
     }
 
     @PatchMapping("/{id}")
@@ -113,7 +114,7 @@ public class PatientController {
         }
         Patient newPatient = this.patientService.update(obj, id);
 
-        return ResponseEntity.ok().body(buildSuccessResponse(200, "paciente alterado com sucesso", HttpStatus.OK, newPatient));
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "paciente alterado com sucesso"));
     }
 
     @DeleteMapping("/{id}")
@@ -127,9 +128,9 @@ public class PatientController {
     }
 
     // BUILDRESPONSES abaixo
-    public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient) {
-        PatientResponse patientResponse = new PatientResponse(status, message, patient);
-        return ResponseEntity.status(httpStatus).body(patientResponse);
+    public GenericResponse buildSuccessResponse(int status, String message) {
+        GenericResponse genericResponse = new GenericResponse(status, message);
+        return genericResponse;
     }
 
     public ResponseEntity<Object> buildSuccessResponse(int status, String message, HttpStatus httpStatus, Patient patient, List<Patient> patients) {

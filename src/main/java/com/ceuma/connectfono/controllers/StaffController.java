@@ -70,7 +70,8 @@ public class StaffController {
 
         Staff staffCreated = staffService.create(staff);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(staff.getId()).toUri();
-        return ResponseEntity.created(uri).body(staffCreated);
+
+        return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Staff cadastrado com sucesso"));
     }
 
     @PatchMapping("/{id}")

@@ -25,7 +25,9 @@ public class MedicalRecordService {
 
     @Transactional
     public MedicalRecordDTO create(MedicalRecordDTO medicalRecordDTO){
+
         MedicalRecord medicalRecord = medicalRecordDTO.getMedicalRecord();
+
         //MedicalHistory medicalHistory = medicalRecordDTO.getMedicalHistory();
         List<Questions> questionsList = medicalRecordDTO.getQuestions();
         MedicalHistory medicalHistory = new MedicalHistory();
@@ -42,11 +44,6 @@ public class MedicalRecordService {
         medicalHistory.setQuestions(questionsList);
 
 
-
-
-
-
-
         MedicalRecordDTO medicalRecordDTOSaved = new MedicalRecordDTO(medicalRecordSaved, medicalHistorySaved, questionsSaved);
 
         return medicalRecordDTOSaved;
@@ -57,13 +54,17 @@ public class MedicalRecordService {
         if(medicalRecords.isEmpty()){
             throw new BadRequestException("Nenhum prontuário cadastrado");
         }
+
         return medicalRecords;
     }
 
-    public MedicalRecord getById(UUID id){
+    public MedicalRecordDTO getById(UUID id){
         MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(
                 ()-> new BadRequestException("Nenhum prontuário com esse ID"));
-        return medicalRecord;
+        MedicalHistory medicalHistory = medicalHistoryService.findByMedicalRecordId(medicalRecord.getId());
+        List<Questions> questionsList = medicalHistory.getQuestions();
+        MedicalRecordDTO medicalRecordDTO = new MedicalRecordDTO(medicalRecord, medicalHistory, questionsList);
+        return medicalRecordDTO;
     }
 
     public List<MedicalRecord> getByPatientId(UUID id){

@@ -27,7 +27,7 @@ public class Staff extends Person{
     @Size(min = 6)
     private String password;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
     @Column(name = "level")
