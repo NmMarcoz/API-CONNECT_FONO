@@ -47,6 +47,11 @@ public class PatientService {
         ));
 
     }
+
+    public Patient findByCpf(String cpf){
+        Optional<Patient> patient = patientRepository.findByCpf(cpf);
+        return patient.orElseThrow(() -> new BadRequestException("Nenhum paciente com esse cpf"));
+    }
     @Transactional
     public Patient create(Patient obj){
         obj.setId(null);
@@ -71,7 +76,17 @@ public class PatientService {
         newPatient.setName(obj.getName());
         newPatient.setDependents(obj.getDependents());
         newPatient.setEmail(obj.getEmail());
-
+        newPatient.setRa(obj.getRa());
+        newPatient.setEducation_level(obj.getEducation_level());
+        newPatient.setPhone_number(obj.getPhone_number());
+        newPatient.setGender(obj.getGender());
+        newPatient.setBirth_year(obj.getBirth_year());
+        newPatient.setOccupation(obj.getOccupation());
+        newPatient.setType(obj.getType());
+        if(obj.getType().equals("EXTERNO")){
+            newPatient.setRa(null);
+            newPatient.setType(obj.getType());
+        }
 
         this.patientRepository.save(newPatient);
         return newPatient;

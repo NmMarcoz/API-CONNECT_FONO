@@ -8,6 +8,7 @@ import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.utils.StringUtils;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +78,11 @@ public class PatientController {
         return ResponseEntity.ok().body(patient);
     }
 
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<Object> findByCpf(@PathVariable String cpf){
+        Patient patient = this.patientService.findByCpf(cpf);
+        return ResponseEntity.ok().body(patient);
+    }
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody Patient obj) {
 
