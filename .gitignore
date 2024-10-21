@@ -36,3 +36,6 @@ build/
 **/resources
 
 .env
+
+*/medicalRecordsPdf
+/medicalRecordsPdf
