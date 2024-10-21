@@ -130,7 +130,7 @@ public class PatientController {
             throw new BadRequestException("O paciente não existe");
         }
         patientRepository.delete(patient);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "paciente deletado com sucesso"));
     }
 
     // BUILDRESPONSES abaixo
