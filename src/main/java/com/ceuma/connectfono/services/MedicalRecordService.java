@@ -36,14 +36,11 @@ public class MedicalRecordService {
             questions.setMedicalHistory(medicalHistorySaved);
         });
 
-
         MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
         List<Questions> questionsSaved = questionsService.createLot(questionsList);
 
         medicalHistory.setMedicalRecord( medicalRecord);
         medicalHistory.setQuestions(questionsList);
-
-
         MedicalRecordDTO medicalRecordDTOSaved = new MedicalRecordDTO(medicalRecordSaved, medicalHistorySaved, questionsSaved);
 
         return medicalRecordDTOSaved;

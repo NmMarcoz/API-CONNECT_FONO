@@ -5,6 +5,7 @@ import com.ceuma.connectfono.dto.MedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.MedicalRecord;
 import com.ceuma.connectfono.services.MedicalRecordService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
@@ -71,10 +72,27 @@ public class MedicalRecordController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("attachment", pdfFile.getName());
-            return ResponseEntity.ok()
+            ResponseEntity<Resource> resourceResponseEntity = ResponseEntity.ok()
                     .headers(headers)
-                    .contentLength(pdfFile.length())
+                    .contentLength(pdfForDownload.contentLength())
                     .body(pdfForDownload);
+
+            new Thread(()->{
+                try{
+                    Thread.sleep(5000);
+                    if(pdfFile.exists()){
+                        System.out.println("existe");
+                        pdfFile.delete();
+                    }
+                }catch(Exception e){
+                    System.out.println("vish");
+                }
+            }).start();
+
+            return resourceResponseEntity;
+            //pdfFile.delete();
+
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
