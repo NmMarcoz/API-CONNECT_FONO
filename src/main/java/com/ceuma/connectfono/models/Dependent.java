@@ -13,7 +13,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class Dependent extends Person{
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
 

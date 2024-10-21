@@ -1,9 +1,11 @@
 package com.ceuma.connectfono.controllers;
 
+import com.ceuma.connectfono.dto.DependentDto;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Dependent;
 import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.services.DependentService;
+import com.ceuma.connectfono.services.PatientService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +20,27 @@ import java.util.UUID;
 public class DependentController {
     @Autowired
     DependentService dependentService;
+    @Autowired
+    private PatientService patientService;
 
     @PostMapping("")
-    public ResponseEntity<Object> create(@RequestBody Dependent dependent) {
+    public ResponseEntity<Object> create(@RequestBody DependentDto dependentDto) {
+        Dependent dependent = new Dependent();
+        if(dependentDto.getDependent() == null){
+            throw new BadRequestException("Insira o dependente");
+        }
+        dependent = dependentDto.getDependent();
         if(dependent.getName() == null
-        || dependent.getPatient().getId() == null
         || dependent.getRelationship() == null
         || dependent.getPhone_number() == null
         || dependent.getCpf() == null){
-            throw new BadRequestException("Os seguintes campos são obrigatórios: Nome, Cpf, Telefone, Relação e Id do paciente");
+            throw new BadRequestException("Os seguintes campos são obrigatórios: Nome, Cpf, Telefone e Relaçao");
         }
+        if(dependentDto.getPatientCpf() == null){
+            throw new BadRequestException("Insira o CPF do paciente");
+        }
+
+        dependent.setPatient(patientService.findByCpf(dependentDto.getPatientCpf()));
 
         Dependent depedentSaved = dependentService.create(dependent);
         return ResponseEntity.status(201).body(buildGenericResponse(201, "dependente cadastrado com sucesso"));
