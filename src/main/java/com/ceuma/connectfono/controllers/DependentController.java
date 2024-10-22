@@ -32,10 +32,7 @@ public class DependentController {
         dependent = dependentDto.getDependent();
         if(dependent.getName() == null
         || dependent.getRelationship() == null
-        || dependent.getPhone_number() == null
-        || dependent.getCpf() == null){
-            throw new BadRequestException("Os seguintes campos são obrigatórios: Nome, Cpf, Telefone e Relaçao");
-        }
+        || dependent.getPhone_number() == null)
         if(dependentDto.getPatientCpf() == null){
             throw new BadRequestException("Insira o CPF do paciente");
         }
@@ -57,12 +54,6 @@ public class DependentController {
     public ResponseEntity<List<Dependent>> getPatientById(@PathVariable("id") UUID id) {
         List<Dependent> dependents = dependentService.getByPatientId(id);
         return ResponseEntity.ok().body(dependents);
-    }
-
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<Dependent> getByCpf(@PathVariable String cpf){
-        Dependent dependent = dependentService.getByCpf(cpf);
-        return ResponseEntity.ok().body(dependent);
     }
 
     @PatchMapping("/{id}")

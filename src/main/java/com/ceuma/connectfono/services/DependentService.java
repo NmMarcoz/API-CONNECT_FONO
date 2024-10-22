@@ -26,12 +26,6 @@ public class DependentService {
         );
     }
 
-    public Dependent getByCpf(String cpf) {
-        return dependentRepository.getByCpf(cpf).orElseThrow(
-                ()-> new BadRequestException("Não existe nenhum dependente com esse cpf")
-        );
-    }
-
     public List<Dependent> getAll() {
         List<Dependent> dependents = dependentRepository.findAll();
         if(dependents.isEmpty()) {

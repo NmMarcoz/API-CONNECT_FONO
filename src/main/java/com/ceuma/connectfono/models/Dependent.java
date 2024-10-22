@@ -17,9 +17,6 @@ public class Dependent extends Person{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
 
-    @Column(name = "cpf", unique = true, nullable = false)
-    private String cpf;
-
     @Column(name ="relationship")
     private String relationship;
 }
