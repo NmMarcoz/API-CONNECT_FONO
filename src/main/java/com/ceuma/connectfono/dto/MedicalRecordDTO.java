@@ -1,5 +1,6 @@
 package com.ceuma.connectfono.dto;
 
+import com.ceuma.connectfono.models.FonoEvaluation;
 import com.ceuma.connectfono.models.MedicalHistory;
 import com.ceuma.connectfono.models.MedicalRecord;
 import com.ceuma.connectfono.models.Questions;
@@ -19,10 +20,12 @@ import java.util.List;
 @Setter
 public class MedicalRecordDTO {
     @JsonProperty(value = "medical_record")
-
     private MedicalRecord medicalRecord;
-    @JsonProperty(value = "medical_history")
 
+    @JsonProperty(value = "fono_evaluation", access = JsonProperty.Access.WRITE_ONLY)
+    private FonoEvaluation fonoEvaluation;
+
+    @JsonProperty(value = "medical_history")
     private MedicalHistory medicalHistory;
     //@JsonProperty(value = "questions", access = JsonProperty.Access.WRITE_ONLY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
