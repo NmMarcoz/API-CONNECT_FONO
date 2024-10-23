@@ -27,6 +27,9 @@ public class MedicalRecord {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "consult_name")
+    private String consultName;
+
     @Column(name = "motive", columnDefinition = "TEXT")
     private String motive;
 

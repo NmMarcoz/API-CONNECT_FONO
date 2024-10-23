@@ -67,6 +67,9 @@ public class DependentService {
     }
 
     public void delete(UUID id) {
+        if(getById(id) == null) {
+            throw new BadRequestException("Não existe nenhum dependente com esse id");
+        }
         dependentRepository.deleteById(id);
         return;
     }

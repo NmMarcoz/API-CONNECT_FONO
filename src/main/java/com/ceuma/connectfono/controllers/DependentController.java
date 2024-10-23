@@ -65,7 +65,7 @@ public class DependentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
         dependentService.delete(id);
-        return ResponseEntity.status(204).body(buildGenericResponse(204, "dependente deletado com sucesso"));
+        return ResponseEntity.status(200).body(buildGenericResponse(200, "dependente deletado com sucesso"));
     }
 
 

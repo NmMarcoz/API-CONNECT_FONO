@@ -59,4 +59,8 @@ public class Patient extends Person {
     @NotNull
     private String type;
 
+    @Column(name = "address", columnDefinition = "TEXT")
+    @NotNull
+    private String address;
+
 }
