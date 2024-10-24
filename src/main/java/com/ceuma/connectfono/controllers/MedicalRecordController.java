@@ -5,6 +5,7 @@ import com.ceuma.connectfono.dto.MedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.MedicalRecord;
 import com.ceuma.connectfono.services.MedicalRecordService;
+import com.ceuma.connectfono.utils.VerifyUtils;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -38,6 +39,18 @@ public class MedicalRecordController {
         System.out.println("ta aqui");
         if(medicalRecordDTO.getMedicalRecord() == null){
             throw new BadRequestException("Medical Record cannot be null");
+        }
+        MedicalRecord medicalRecord = medicalRecordDTO.getMedicalRecord();
+        if(medicalRecord.getConsultName() == null){
+            throw new BadRequestException("O nome da consulta é obrigatório");
+        }
+        if(!VerifyUtils.isValidConsultName(medicalRecord.getConsultName())){
+            throw new BadRequestException("O nome da consulta deve conter um dos seguintes valores: " +
+                    "AUDIOMETRIA TONAL E VOCAL, " +
+                    "CONSULTA FONOAUDIOLOGIA, IMITANCIOMETRIA, " +
+                    "PROCESSAMENTO AUDITIVO CENTRAL, " +
+                    "TESTE DE ORELHINHA, " +
+                    "VENG");
         }
 
         MedicalRecordDTO medicalRecordDTOSaved = medicalRecordService.create(medicalRecordDTO);
