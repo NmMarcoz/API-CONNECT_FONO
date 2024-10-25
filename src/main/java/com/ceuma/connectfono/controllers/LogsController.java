@@ -45,7 +45,7 @@ public class LogsController {
             throw new BadRequestException("Campos obrigatórios: message, cpf");
         }
         logs.setDate(LocalDate.now());
-        logs.setTime(LocalTime.now());
+        logs.setHour(LocalTime.now());
         logsService.create(logs);
         return ResponseEntity.ok().body(buildSuccessResponse(200, "Log criado com sucesso"));
     }

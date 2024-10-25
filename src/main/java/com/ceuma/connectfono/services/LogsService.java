@@ -61,8 +61,8 @@ public class LogsService {
         if(logs.getCpf() != null){
             newLog.setCpf(logs.getCpf());
         }
-        if(logs.getTime() != null){
-            newLog.setTime(logs.getTime());
+        if(logs.getHour() != null){
+            newLog.setHour(logs.getHour());
         }
         if(logs.getDate() != null){
             newLog.setDate(logs.getDate());

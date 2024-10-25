@@ -32,5 +32,5 @@ public class Logs {
     private LocalDate date;
 
     @Column(name = "hour", nullable = false)
-    private LocalTime time;
+    private LocalTime hour;
 }
