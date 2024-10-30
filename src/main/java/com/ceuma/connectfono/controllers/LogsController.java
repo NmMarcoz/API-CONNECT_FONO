@@ -40,6 +40,12 @@ public class LogsController {
         return ResponseEntity.ok().body(logs);
     }
 
+    @GetMapping("bydate/{beginDate}/{endDate}")
+    public ResponseEntity<List<Logs>> getByDateInterval(@PathVariable LocalDate beginDate, @PathVariable LocalDate endDate){
+        List<Logs> logs = logsService.getByDateInterval(beginDate, endDate);
+        return ResponseEntity.ok().body(logs);
+    }
+
     @GetMapping("/bydateAndCpf/{date}/{cpf}")
     public ResponseEntity<List<Logs>> getLogsByDateAndCpf(@PathVariable LocalDate date, @PathVariable String cpf){
         List<Logs> logs = logsService.getByDateAndCpf(date, cpf);
