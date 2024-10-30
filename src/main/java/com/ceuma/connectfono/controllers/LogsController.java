@@ -5,6 +5,7 @@ import com.ceuma.connectfono.models.Logs;
 import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.services.LogsService;
 import lombok.extern.java.Log;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,12 @@ public class LogsController {
     @GetMapping("/bydate/{date}")
     public ResponseEntity<List<Logs>> getLogsByDate(@PathVariable LocalDate date){
         List<Logs> logs = logsService.getByDate(date);
+        return ResponseEntity.ok().body(logs);
+    }
+
+    @GetMapping("/bydateAndCpf/{date}/{cpf}")
+    public ResponseEntity<List<Logs>> getLogsByDateAndCpf(@PathVariable LocalDate date, @PathVariable String cpf){
+        List<Logs> logs = logsService.getByDateAndCpf(date, cpf);
         return ResponseEntity.ok().body(logs);
     }
 

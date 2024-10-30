@@ -15,4 +15,10 @@ public interface LogsRepository extends JpaRepository<Logs, UUID> {
 
     @Query(value = "SELECT * FROM logs WHERE date = :date", nativeQuery = true)
     List<Logs> getLogsByDate(@Param("date")LocalDate date);
+
+    @Query(value = "SELECT * FROM logs WHERE date =:date AND cpf = :cpf", nativeQuery = true)
+    List<Logs> getLogsByDateAndCpf(@Param("date") LocalDate date, @Param("cpf") String cpf);
+
+    @Query(value = "SELECT * FROM logs WHERE date BETWEEN :begin_date AND :end_date", nativeQuery = true)
+    List<Logs> getLogsByIntervalDate(@Param("begin_date") LocalDate beginDate, @Param("end_date") LocalDate endDate);
 }

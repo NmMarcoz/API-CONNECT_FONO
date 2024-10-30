@@ -6,6 +6,7 @@ import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.repositories.LogsRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class LogsService {
         }
         return logs;
     }
+
     public Logs getById(UUID id){
         return logsRepository.findById(id).orElseThrow(
                 ()-> new BadRequestException("Não existe log cadastrado com esse id")
@@ -40,6 +42,14 @@ public class LogsService {
         return logs;
     }
 
+    public List<Logs> getByDateAndCpf(LocalDate date, String cpf){
+        List<Logs> logs = logsRepository.getLogsByDateAndCpf(date, cpf);
+        if(logs.isEmpty()){
+            throw new BadRequestException("Nenhum log foi encontrado");
+        }
+        return logs;
+    }
+
     public List<Logs> getByDate(LocalDate date){
         List<Logs> logs = logsRepository.getLogsByDate(date);
         if(logs.isEmpty()){
@@ -47,6 +57,15 @@ public class LogsService {
         }
         return logs;
     }
+
+    public List<Logs> getByDateInterval(LocalDate beginDate, LocalDate endDate){
+        List<Logs> logs = logsRepository.getLogsByIntervalDate(beginDate, endDate);
+        if(logs.isEmpty()){
+            throw new BadRequestException("Não há logs nesse intervalo de data");
+        }
+        return logs;
+    }
+
 
     public Logs create(Logs logs){
         if(patientRepository.findByCpf(logs.getCpf()).isEmpty()){
