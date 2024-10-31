@@ -2,10 +2,12 @@ package com.ceuma.connectfono.controllers;
 
 import com.ceuma.connectfono.dto.AuthenticateResponseDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.models.Logs;
 import com.ceuma.connectfono.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
 import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.responses.StaffResponse;
+import com.ceuma.connectfono.services.LogsService;
 import com.ceuma.connectfono.services.StaffService;
 
 import com.ceuma.connectfono.utils.StringUtils;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,6 +35,8 @@ public class StaffController {
     StringUtils stringUtils = new StringUtils();
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private LogsService logsService;
 
     @GetMapping("")
     public ResponseEntity<List<Staff>> getAll(){
@@ -111,6 +117,9 @@ public class StaffController {
         if(staffFound == null){
             throw new BadRequestException("Email ou senha inválidos");
         }
+        String message = "O staff " + staffFound.getCpf() + " efetuou login";
+        Logs log = new Logs(staffFound.getId(),message, staffFound.getCpf(), LocalDate.now(), LocalTime.now());
+        logsService.create(log);
         AuthenticateResponseDTO authenticateResponseDTO =
                 new AuthenticateResponseDTO(
                         null,

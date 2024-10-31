@@ -5,6 +5,7 @@ import com.ceuma.connectfono.models.Logs;
 import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.repositories.LogsRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
+import com.ceuma.connectfono.repositories.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class LogsService {
     private LogsRepository logsRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private StaffRepository staffRepository;
 
     public List<Logs> getAll(){
         List<Logs> logs = logsRepository.findAll();
@@ -68,7 +71,7 @@ public class LogsService {
 
 
     public Logs create(Logs logs){
-        if(patientRepository.findByCpf(logs.getCpf()).isEmpty()){
+        if(staffRepository.findByCpf(logs.getCpf()).isEmpty()){
             throw new BadRequestException("Não existe paciente com esse cpf");
         }
         Logs logSaved = logsRepository.save(logs);

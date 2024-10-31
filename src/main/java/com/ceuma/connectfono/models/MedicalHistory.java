@@ -23,6 +23,18 @@ public class MedicalHistory {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private MedicalRecord medicalRecord;
 
+    @Column(name = "annotations", columnDefinition = "TEXT")
+    private String annotations;
+
+    @Column(name = "complementary_exams", columnDefinition = "TEXT")
+    private String complementaryExams;
+
+    @Column(name = "orientation", columnDefinition = "TEXT")
+    private String orientation;
+
+    @Column(name = "reference", columnDefinition = "TEXT")
+    private String reference;
+
     @OneToMany
     @JsonManagedReference
     private List<Questions> questions;
