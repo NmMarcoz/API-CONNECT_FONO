@@ -32,9 +32,6 @@ public class MedicalHistory {
     @Column(name = "orientation", columnDefinition = "TEXT")
     private String orientation;
 
-    @Column(name = "reference", columnDefinition = "TEXT")
-    private String reference;
-
     @OneToMany
     @JsonManagedReference
     private List<Questions> questions;

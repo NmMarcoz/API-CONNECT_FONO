@@ -3,7 +3,9 @@ package com.ceuma.connectfono.controllers;
 import com.aspose.pdf.Document;
 import com.ceuma.connectfono.dto.MedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.models.MedicalHistory;
 import com.ceuma.connectfono.models.MedicalRecord;
+import com.ceuma.connectfono.responses.GenericResponse;
 import com.ceuma.connectfono.services.MedicalRecordService;
 import com.ceuma.connectfono.utils.VerifyUtils;
 import org.apache.coyote.Response;
@@ -24,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -58,11 +61,35 @@ public class MedicalRecordController {
         return ResponseEntity.created(uri).body(medicalRecordDTOSaved);
 
     }
+    @PostMapping("/v2")
+    public ResponseEntity<Object> createv2(@RequestBody MedicalRecord  medicalRecord) {
+        if(medicalRecord.getMedicalHistory() == null){
+            throw new BadRequestException("Anamnese não pode estar vazia");
+        }
+        if(medicalRecord.getConsultName() == null){
+            throw new BadRequestException("nome da consulta é obrigatório");
+        }
 
+        MedicalRecord medicalRecordSaved = medicalRecordService.createv2(medicalRecord);
+        return ResponseEntity.status(201).body(buildSuccessResponse(201, "prontuario registrado"));
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id){
         MedicalRecordDTO medicalRecordDTO = medicalRecordService.getById(id);
         return ResponseEntity.ok().body(medicalRecordDTO);
+    }
+
+    //retorna o medicalHistory porque ele tem a referencia para o medicalRecord, e nao o contrario.
+    @GetMapping("")
+    public ResponseEntity<List<MedicalRecord>> getAll(){
+        List<MedicalRecord> medicalRecords = medicalRecordService.getAll();
+        return ResponseEntity.ok().body(medicalRecords);
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<List<MedicalRecord>> getByPatientCpf(@PathVariable String cpf){
+        List<MedicalRecord> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
+        return ResponseEntity.ok().body(medicalRecords);
     }
 
     @GetMapping("pdf/{id}")
@@ -112,4 +139,8 @@ public class MedicalRecordController {
         }
     }
 
+    public GenericResponse buildSuccessResponse(int status, String message) {
+        GenericResponse genericResponse = new GenericResponse(status, message);
+        return genericResponse;
+    }
 }

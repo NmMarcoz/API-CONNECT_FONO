@@ -48,6 +48,10 @@ public class MedicalRecord {
     @JoinColumn(name = "fono_evaluation_id")
     private FonoEvaluation fonoEvaluation;
 
+    @OneToOne
+    @JoinColumn(name =  "medical_history_id")
+    private MedicalHistory medicalHistory;
+
     @Column(name = "diagnosis", columnDefinition = "TEXT")
     private String diagnosis;
 
