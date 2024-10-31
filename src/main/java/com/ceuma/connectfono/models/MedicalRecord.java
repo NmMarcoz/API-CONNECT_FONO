@@ -99,4 +99,7 @@ public class MedicalRecord {
 
     @Column(name = "recommendations")
     private String recommendations;
+
+    @Column(name = "sign_in")
+    private String signIn;
 }

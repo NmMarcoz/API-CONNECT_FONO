@@ -1,6 +1,7 @@
 package com.ceuma.connectfono.services;
 
 import com.ceuma.connectfono.dto.MedicalRecordDTO;
+import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.FonoEvaluation;
 import com.ceuma.connectfono.models.MedicalHistory;
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -108,12 +110,18 @@ public class MedicalRecordService {
         }
         return medicalRecords;
     }
-    public List<MedicalRecord> getByPatientCpf(String cpf){
+    public List<SmallMedicalRecordDTO> getByPatientCpf(String cpf){
         List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientCpf(cpf);
+
+
         if(medicalRecords.isEmpty()){
             throw new BadRequestException("Nenhum prontuario referente a esse paciente");
         }
-        return medicalRecords;
+        List<SmallMedicalRecordDTO> smalLMedicalRecords = new ArrayList<>();
+        medicalRecords.forEach(medicalRecord -> {
+            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate()));
+        });
+        return smalLMedicalRecords;
     }
 
 }

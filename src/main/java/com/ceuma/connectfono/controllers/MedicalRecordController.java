@@ -2,6 +2,7 @@ package com.ceuma.connectfono.controllers;
 
 import com.aspose.pdf.Document;
 import com.ceuma.connectfono.dto.MedicalRecordDTO;
+import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.MedicalHistory;
 import com.ceuma.connectfono.models.MedicalRecord;
@@ -87,8 +88,8 @@ public class MedicalRecordController {
     }
 
     @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<List<MedicalRecord>> getByPatientCpf(@PathVariable String cpf){
-        List<MedicalRecord> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
+    public ResponseEntity<List<SmallMedicalRecordDTO>> getByPatientCpf(@PathVariable String cpf){
+        List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
         return ResponseEntity.ok().body(medicalRecords);
     }
 
