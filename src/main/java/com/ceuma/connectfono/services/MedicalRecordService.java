@@ -93,14 +93,10 @@ public class MedicalRecordService {
         return medicalRecords;
     }
 
-    public MedicalRecordDTO getById(UUID id){
-        MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(
-                ()-> new BadRequestException("Nenhum prontuário com esse ID"));
-        MedicalHistory medicalHistory = medicalHistoryService.findByMedicalRecordId(medicalRecord.getId());
-        FonoEvaluation fonoEvaluation = medicalRecord.getFonoEvaluation();
-        List<Questions> questionsList = medicalHistory.getQuestions();
-        MedicalRecordDTO medicalRecordDTO = new MedicalRecordDTO(medicalRecord, fonoEvaluation, medicalHistory, questionsList);
-        return medicalRecordDTO;
+    public MedicalRecord getById(UUID id){
+       MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(
+               ()-> new BadRequestException("Nenhum prontuario com esse id"));
+       return medicalRecord;
     }
 
     public List<MedicalRecord> getByPatientId(UUID id){

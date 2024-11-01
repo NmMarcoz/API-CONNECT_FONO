@@ -76,8 +76,8 @@ public class MedicalRecordController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id){
-        MedicalRecordDTO medicalRecordDTO = medicalRecordService.getById(id);
-        return ResponseEntity.ok().body(medicalRecordDTO);
+        MedicalRecord medicalRecord = medicalRecordService.getById(id);
+        return ResponseEntity.ok().body(medicalRecord);
     }
 
     //retorna o medicalHistory porque ele tem a referencia para o medicalRecord, e nao o contrario.
