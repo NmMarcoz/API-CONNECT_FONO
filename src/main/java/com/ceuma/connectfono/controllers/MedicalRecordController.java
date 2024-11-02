@@ -96,9 +96,9 @@ public class MedicalRecordController {
     @GetMapping("pdf/{id}")
     public ResponseEntity<Resource> generatePdf(@PathVariable UUID id) {
         try {
-            MedicalRecordDTO medicalRecordDTO = medicalRecordService.getById(id);
+            MedicalRecord medicalRecord = medicalRecordService.getById(id);
             System.out.println("achou o medicalRecord");
-            String docPath = pdfController.generatePdf(medicalRecordDTO);
+            String docPath = pdfController.generatePdf(medicalRecord);
             File pdfFile = new File(docPath);
             if(!pdfFile.exists()){
                 throw new BadRequestException("nao achei o pdf");

@@ -22,9 +22,9 @@ import java.util.List;
 public class MedicalRecordPdfController {
     //private MedicalRecord medicalRecord;
 
-    public String generatePdf(MedicalRecordDTO medicalRecord) {
+    public String generatePdf(MedicalRecord medicalRecord) {
         Document doc = new Document();
-        Patient patient = medicalRecord.getMedicalRecord().getPatient();
+        Patient patient = medicalRecord.getPatient();
         List<Questions> questionsList = medicalRecord.getMedicalHistory().getQuestions();
 
         Page page = doc.getPages().add();
@@ -33,10 +33,10 @@ public class MedicalRecordPdfController {
 
         //TextFragment copyRight = new TextFragment("Clínica de FonoAudiologia do CEUMA");
 
-        page.getParagraphs().add(generateTitle(medicalRecord.getMedicalRecord().getTitle()));
+        page.getParagraphs().add(generateTitle(medicalRecord.getTitle()));
         page.getParagraphs().add(generateMediumText("data de expedição", aligment.Center));
         page.getParagraphs().add(generateSmallText(
-                medicalRecord.getMedicalRecord().getDate().toString(), aligment.Center));
+                medicalRecord.getDate().toString(), aligment.Center));
 
         page.getParagraphs().add(generateTopic("Dados do Paciente"));
 
@@ -50,13 +50,13 @@ public class MedicalRecordPdfController {
         page.getParagraphs().add(generateSmallText(patient.getPhone_number(),aligment.Left));
 
         page.getParagraphs().add(generateTopic("Motivo"));
-        page.getParagraphs().add(generateSmallText(medicalRecord.getMedicalRecord().getMotive()));
+        page.getParagraphs().add(generateSmallText(medicalRecord.getMotive()));
 
         page.getParagraphs().add(generateTopic("Diagnóstico"));
-        page.getParagraphs().add(generateSmallText(medicalRecord.getMedicalRecord().getDiagnosis(),aligment.Left));
+        page.getParagraphs().add(generateSmallText(medicalRecord.getDiagnosis(),aligment.Left));
 
         page.getParagraphs().add(generateTopic("Observações"));
-        page.getParagraphs().add(generateSmallText(medicalRecord.getMedicalRecord().getObservations(),aligment.Left));
+        page.getParagraphs().add(generateSmallText(medicalRecord.getObservations(),aligment.Left));
 
 
 
@@ -70,7 +70,7 @@ public class MedicalRecordPdfController {
 
 
 
-        File fileName = new File("medicalRecordsPdf/" + medicalRecord.getMedicalRecord().getTitle() + ".pdf");
+        File fileName = new File("medicalRecordsPdf/" + medicalRecord.getTitle() + ".pdf");
 
         //doc.save("prontuário: " + medicalRecord.getMedicalRecord().getTitle() + ".pdf");
         System.out.println("salvou o documento");
