@@ -109,13 +109,12 @@ public class MedicalRecordService {
     public List<SmallMedicalRecordDTO> getByPatientCpf(String cpf){
         List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientCpf(cpf);
 
-
         if(medicalRecords.isEmpty()){
             throw new BadRequestException("Nenhum prontuario referente a esse paciente");
         }
         List<SmallMedicalRecordDTO> smalLMedicalRecords = new ArrayList<>();
         medicalRecords.forEach(medicalRecord -> {
-            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate()));
+            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate(), medicalRecord.getStaff()));
         });
         return smalLMedicalRecords;
     }
