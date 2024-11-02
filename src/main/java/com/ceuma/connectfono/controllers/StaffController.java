@@ -138,7 +138,7 @@ public class StaffController {
             throw new BadRequestException("nenhum staff encontrado");
         }
         staffRepository.delete(staff);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "Deletado com sucesso"));
     }
 
     public Object buildSuccessResponse(int status, String message){
