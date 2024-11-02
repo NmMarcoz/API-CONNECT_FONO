@@ -43,6 +43,10 @@ public class MedicalRecord {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
+    @ManyToOne
+    @JoinColumn(name = "staff_id", nullable = false)
+    private Staff staff;
+
     //Avaliação Fonoaudiologica
     @OneToOne
     @JoinColumn(name = "fono_evaluation_id")
