@@ -80,6 +80,12 @@ public class MedicalRecordController {
         return ResponseEntity.ok().body(medicalRecord);
     }
 
+    @GetMapping("/staff/{id}")
+    public ResponseEntity<List<MedicalRecord>> getByStaffId(@PathVariable UUID id){
+        List<MedicalRecord> medicalRecordList = medicalRecordService.getByStaffId(id);
+        return ResponseEntity.ok().body(medicalRecordList);
+    }
+
     //retorna o medicalHistory porque ele tem a referencia para o medicalRecord, e nao o contrario.
     @GetMapping("")
     public ResponseEntity<List<MedicalRecord>> getAll(){

@@ -15,4 +15,7 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, UU
 
     @Query(value = "SELECT * FROM medical_record WHERE patient_id = (SELECT id FROM patient WHERE cpf = :cpf)", nativeQuery = true)
     List<MedicalRecord> getByPatientCpf(@Param("cpf") String cpf);
+
+    @Query(value = "SELECT * FROM medical_record WHERE staff_id = :id", nativeQuery = true)
+    List<MedicalRecord> getByStaffId(@Param("id") UUID staffId);
 }

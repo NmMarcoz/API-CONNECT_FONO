@@ -120,4 +120,12 @@ public class MedicalRecordService {
         return smalLMedicalRecords;
     }
 
+    public List<MedicalRecord> getByStaffId(UUID id){
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.getByStaffId(id);
+        if(medicalRecords.isEmpty()){
+            throw new BadRequestException("Nenhum prontuario registrado para esse staff");
+        }
+        return medicalRecords;
+    }
+
 }

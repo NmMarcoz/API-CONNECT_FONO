@@ -43,7 +43,7 @@ public class MedicalRecord {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
