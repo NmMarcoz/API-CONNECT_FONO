@@ -35,6 +35,9 @@ build/
 
 **/resources
 
+### OS ###
+.DS_Store
+
 .env
 
 */medicalRecordsPdf
