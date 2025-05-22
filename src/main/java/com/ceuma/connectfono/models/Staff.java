@@ -18,16 +18,15 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Staff extends Person{
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
-    private UUID id;
+    private Integer id;
 
+    @Column(name = "password", columnDefinition = "TEXT")
     @JsonProperty(access = Access.WRITE_ONLY)
-    @Column (name = "password")
-    @Size(min = 6)
     private String password;
 
-    @Column(name = "cpf", unique = true)
+    @Column(name = "cpf", unique = true, columnDefinition = "TEXT")
     private String cpf;
 
     @Column(name = "level")

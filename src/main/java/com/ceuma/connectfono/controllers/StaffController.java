@@ -48,7 +48,7 @@ public class StaffController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Staff> getById(@PathVariable UUID id){
+    public ResponseEntity<Staff> getById(@PathVariable Integer id){
         Staff staff = staffService.getById(id);
         return ResponseEntity.ok().body(staff);
     }
@@ -81,7 +81,7 @@ public class StaffController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody Staff staff){
+    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody Staff staff){
         if(Objects.isNull(staff)){
             throw new BadRequestException("Insira ao menos um campo");
         }
@@ -118,7 +118,7 @@ public class StaffController {
             throw new BadRequestException("Email ou senha inválidos");
         }
         String message = "O staff " + staffFound.getCpf() + " efetuou login";
-        Logs log = new Logs(staffFound.getId(),message, staffFound.getCpf(), LocalDate.now(), LocalTime.now());
+        Logs log = new Logs(staffFound.getId(),message, staffFound.getCpf(), String.valueOf(LocalDate.now()), String.valueOf(LocalTime.now()));
         logsService.create(log);
         AuthenticateResponseDTO authenticateResponseDTO =
                 new AuthenticateResponseDTO(
@@ -132,7 +132,7 @@ public class StaffController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id){
+    public ResponseEntity<Object> delete(@PathVariable Integer id){
         Staff staff = staffRepository.findById(id).orElse(null);
         if(staff == null){
             throw new BadRequestException("nenhum staff encontrado");

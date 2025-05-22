@@ -1,6 +1,7 @@
 package com.ceuma.connectfono.controllers;
 
 import com.aspose.pdf.Document;
+import com.ceuma.connectfono.dto.MedicalRecordCreateDto;
 import com.ceuma.connectfono.dto.MedicalRecordDTO;
 import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
@@ -63,25 +64,25 @@ public class MedicalRecordController {
 
     }
     @PostMapping("/v2")
-    public ResponseEntity<Object> createv2(@RequestBody MedicalRecord  medicalRecord) {
+    public ResponseEntity<Object> createv2(@RequestBody MedicalRecordCreateDto medicalRecord) {
         if(medicalRecord.getMedicalHistory() == null){
             throw new BadRequestException("Anamnese não pode estar vazia");
         }
-        if(medicalRecord.getConsultName() == null){
+        if(medicalRecord.getMedicalRecord().getConsultName() == null){
             throw new BadRequestException("nome da consulta é obrigatório");
         }
 
-        MedicalRecord medicalRecordSaved = medicalRecordService.createv2(medicalRecord);
+        MedicalRecord medicalRecordSaved = medicalRecordService.createv2(medicalRecord.getMedicalRecord(), medicalRecord.getMedicalHistory());
         return ResponseEntity.status(201).body(buildSuccessResponse(201, "prontuario registrado"));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable UUID id){
+    public ResponseEntity<Object> getById(@PathVariable Integer id){
         MedicalRecord medicalRecord = medicalRecordService.getById(id);
         return ResponseEntity.ok().body(medicalRecord);
     }
 
     @GetMapping("/staff/{id}")
-    public ResponseEntity<List<MedicalRecord>> getByStaffId(@PathVariable UUID id){
+    public ResponseEntity<List<MedicalRecord>> getByStaffId(@PathVariable Integer id){
         List<MedicalRecord> medicalRecordList = medicalRecordService.getByStaffId(id);
         return ResponseEntity.ok().body(medicalRecordList);
     }
@@ -93,14 +94,14 @@ public class MedicalRecordController {
         return ResponseEntity.ok().body(medicalRecords);
     }
 
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<List<SmallMedicalRecordDTO>> getByPatientCpf(@PathVariable String cpf){
-        List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
-        return ResponseEntity.ok().body(medicalRecords);
-    }
+//    @GetMapping("/cpf/{cpf}")
+//    public ResponseEntity<List<SmallMedicalRecordDTO>> getByPatientCpf(@PathVariable String cpf){
+//        List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
+//        return ResponseEntity.ok().body(medicalRecords);
+//    }
 
     @GetMapping("pdf/{id}")
-    public ResponseEntity<Resource> generatePdf(@PathVariable UUID id) {
+    public ResponseEntity<Resource> generatePdf(@PathVariable Integer id) {
         try {
             MedicalRecord medicalRecord = medicalRecordService.getById(id);
             System.out.println("achou o medicalRecord");

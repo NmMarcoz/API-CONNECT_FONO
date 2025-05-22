@@ -37,7 +37,7 @@ public class ConsultationController {
         if (obj == null) {
             throw new BadRequestException("Request inválida");
         }
-        if (obj.getTitle() == null || obj.getTitle().isEmpty() || obj.getPatient() == null) {
+        if (obj.getTitle() == null || obj.getTitle().isEmpty()) {
             throw new BadRequestException("campos obrigatórios não informados");
         }
 
@@ -54,7 +54,7 @@ public class ConsultationController {
 
         updateConsutation(obj, obj.getId());
 
-        Patient patient = this.patientService.findById(obj.getPatient().getId());
+        Patient patient = this.patientService.findById(requestDTO.getPatientId());
         patient.setCpf(null);
         this.patientService.update(patient, patient.getId());
 
@@ -70,7 +70,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable UUID id) {
+    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable Integer id) {
         if (id == null) {
             throw new BadRequestException("O campo id é obrigatório");
         }
@@ -79,7 +79,7 @@ public class ConsultationController {
     }
 
     @PostMapping("/consultation/{id}")
-    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable UUID id) {
+    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable Integer id) {
         Consultation newConsultation = this.consultationService.update(obj, id);
         return ResponseEntity.ok().body(newConsultation);
 

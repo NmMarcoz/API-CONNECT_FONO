@@ -29,7 +29,7 @@ public class QuestionsService {
         return questionsRepository.saveAll(questions);
     }
 
-    public Questions findById(UUID id){
+    public Questions findById(Integer id){
         return questionsRepository.findById(id).orElseThrow(()-> new BadRequestException("Question not found"));
     }
 
@@ -44,7 +44,7 @@ public class QuestionsService {
         return questionsRepository.save(question);
     }
 
-    public void delete(UUID id){
+    public void delete(Integer id){
         questionsRepository.deleteById(id);
     }
 

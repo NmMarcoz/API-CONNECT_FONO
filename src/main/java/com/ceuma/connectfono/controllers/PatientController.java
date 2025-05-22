@@ -66,7 +66,7 @@ public class PatientController {
 
     //depois trocar para Patient, pois ainda nao fiz os handlers
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable UUID id) {
+    public ResponseEntity<Object> findById(@PathVariable Integer id) {
         System.out.println("entrou");
         if (id == null) {
             throw new BadRequestException("Id não pode ser nulo");
@@ -103,8 +103,8 @@ public class PatientController {
             throw new BadRequestException("Tipo de paciente inválido. Válidos somente ALUNO ou EXTERNO");
         }
 
-        obj.setGender(Character.toUpperCase(obj.getGender()));
-        if(obj.getGender() != 'M' && obj.getGender() != 'F') {
+        obj.setGender(obj.getGender().toUpperCase());
+        if(!obj.getGender().equalsIgnoreCase("M") && !obj.getGender().equalsIgnoreCase("F")) {
             throw new BadRequestException("Gênero só pode ser M ou F");
         }
 
@@ -114,7 +114,7 @@ public class PatientController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable UUID id) {
+    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Integer id) {
         if (obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null) {
             throw new BadRequestException("Insira pelo menos um dos campos: Nome, Email ou Dependentes");
         }
@@ -124,7 +124,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
         Patient patient = this.patientService.findById(id);
         if(patient == null){
             throw new BadRequestException("O paciente não existe");

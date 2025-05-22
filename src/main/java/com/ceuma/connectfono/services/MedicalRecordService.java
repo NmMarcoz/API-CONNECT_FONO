@@ -43,12 +43,9 @@ public class MedicalRecordService {
         List<Questions> questionsList = medicalRecordDTO.getQuestions();
 
         MedicalHistory medicalHistorySaved = medicalHistoryService.create(medicalHistory);
-        questionsList.forEach(questions -> {
-            questions.setMedicalHistory(medicalHistorySaved);
-        });
 
-        medicalRecord.setFonoEvaluation(fonoEvaluation);
-        medicalRecord.setMedicalHistory(medicalHistorySaved);
+        medicalHistory.setFonoEvaluation(fonoEvaluation);
+
         MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
         FonoEvaluation fonoEvaluationSaved = fonoEvaluationRepository.save(fonoEvaluation);
         List<Questions> questionsSaved = questionsService.createLot(questionsList);
@@ -60,22 +57,17 @@ public class MedicalRecordService {
         return medicalRecordDTOSaved;
     }
 
-    public MedicalRecord createv2(MedicalRecord medicalRecord){
-        MedicalHistory medicalHistory = medicalRecord.getMedicalHistory();
+    public MedicalRecord createv2(MedicalRecord medicalRecord, MedicalHistory medicalHistory){
         List<Questions> questions = medicalHistory.getQuestions();
-        FonoEvaluation fonoEvaluation = medicalRecord.getFonoEvaluation();
+        FonoEvaluation fonoEvaluation = medicalHistory.getFonoEvaluation();
 
         medicalHistory.setQuestions(null);
         MedicalHistory medicalHistorySaved = medicalHistoryService.create(medicalHistory);
-        questions.forEach(question -> {
-            question.setMedicalHistory(medicalHistorySaved);
-        });
         questionsService.createLot(questions);
 
         FonoEvaluation fonoEvaluationSaved = fonoEvaluationRepository.save(fonoEvaluation);
         medicalHistorySaved.setQuestions(questions);
-        medicalRecord.setFonoEvaluation(fonoEvaluationSaved);
-        medicalRecord.setMedicalHistory(medicalHistorySaved);
+        medicalHistory.setFonoEvaluation(fonoEvaluationSaved);
 
         MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
 
@@ -93,33 +85,33 @@ public class MedicalRecordService {
         return medicalRecords;
     }
 
-    public MedicalRecord getById(UUID id){
+    public MedicalRecord getById(Integer id){
        MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(
                ()-> new BadRequestException("Nenhum prontuario com esse id"));
        return medicalRecord;
     }
 
-    public List<MedicalRecord> getByPatientId(UUID id){
+    public List<MedicalRecord> getByPatientId(Integer id){
         List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientID(id);
         if(medicalRecords.isEmpty()){
             throw new BadRequestException("Nenhum prontuário referente a esse paciente");
         }
         return medicalRecords;
     }
-    public List<SmallMedicalRecordDTO> getByPatientCpf(String cpf){
-        List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientCpf(cpf);
+//    public List<SmallMedicalRecordDTO> getByPatientCpf(String cpf){
+//        List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientCpf(cpf);
+//
+//        if(medicalRecords.isEmpty()){
+//            throw new BadRequestException("Nenhum prontuario referente a esse paciente");
+//        }
+//        List<SmallMedicalRecordDTO> smalLMedicalRecords = new ArrayList<>();
+//        medicalRecords.forEach(medicalRecord -> {
+//            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate(), medicalRecord.getStaff()));
+//        });
+//        return smalLMedicalRecords;
+//    }
 
-        if(medicalRecords.isEmpty()){
-            throw new BadRequestException("Nenhum prontuario referente a esse paciente");
-        }
-        List<SmallMedicalRecordDTO> smalLMedicalRecords = new ArrayList<>();
-        medicalRecords.forEach(medicalRecord -> {
-            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate(), medicalRecord.getStaff()));
-        });
-        return smalLMedicalRecords;
-    }
-
-    public List<MedicalRecord> getByStaffId(UUID id){
+    public List<MedicalRecord> getByStaffId(Integer id){
         List<MedicalRecord> medicalRecords = medicalRecordRepository.getByStaffId(id);
         if(medicalRecords.isEmpty()){
             throw new BadRequestException("Nenhum prontuario registrado para esse staff");

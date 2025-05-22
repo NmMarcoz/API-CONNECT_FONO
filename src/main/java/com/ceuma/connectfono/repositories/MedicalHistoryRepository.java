@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.UUID;
 
-public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, UUID> {
+public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, Integer> {
 
     @Query(value = "SELECT * FROM medical_history WHERE medical_record_id = :medical_record_id", nativeQuery = true)
-    MedicalHistory findByMedicalRecordId(@Param("medical_record_id") UUID id);
+    MedicalHistory findByMedicalRecordId(@Param("medical_record_id") Integer id);
 }

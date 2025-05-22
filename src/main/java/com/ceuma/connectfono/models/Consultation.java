@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.hibernate.annotations.DialectOverride;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,9 +24,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Consultation {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id;
+    private Integer id;
 
     @Column(name = "title")
     @Size(max = 12)
@@ -33,24 +34,17 @@ public class Consultation {
     @NotBlank
     private String title;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description")
     @NotNull
     @NotBlank
     private String description;
 
-    @ManyToOne
-    @NotBlank
-    private Patient patient;
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "schedule_id")
-//    @JsonManagedReference
-//
-//    private Schedule schedule;
-
     @Column(name = "status")
     private String status;
 
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
     public enum statusType{
         pendente,

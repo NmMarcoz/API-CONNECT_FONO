@@ -17,9 +17,9 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
-    private UUID id;
+    private Integer id;
 
     @Column(name = "name")
     @NotNull

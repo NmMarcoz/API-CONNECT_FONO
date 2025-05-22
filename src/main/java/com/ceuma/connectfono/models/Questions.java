@@ -16,10 +16,11 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Questions {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "title")
     private String title;
@@ -27,9 +28,4 @@ public class Questions {
     @Column(name = "answer")
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_history_id")
-    @JsonBackReference
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private MedicalHistory medicalHistory;
 }

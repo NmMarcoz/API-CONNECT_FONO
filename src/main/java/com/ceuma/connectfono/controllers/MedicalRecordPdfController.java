@@ -24,8 +24,8 @@ public class MedicalRecordPdfController {
 
     public String generatePdf(MedicalRecord medicalRecord) {
         Document doc = new Document();
-        Patient patient = medicalRecord.getPatient();
-        List<Questions> questionsList = medicalRecord.getMedicalHistory().getQuestions();
+        //Patient patient = medicalRecord.getPatient();
+        //List<Questions> questionsList = medicalRecord.getMedicalHistory().getQuestions();
 
         Page page = doc.getPages().add();
         page.setPageSize(PageSize.getA4().getWidth(), PageSize.getA4().getHeight());
@@ -41,13 +41,13 @@ public class MedicalRecordPdfController {
         page.getParagraphs().add(generateTopic("Dados do Paciente"));
 
         page.getParagraphs().add(generateMediumText("Nome"));
-        page.getParagraphs().add(generateSmallText(patient.getName(),aligment.Left));
+        //page.getParagraphs().add(generateSmallText(patient.getName(),aligment.Left));
         page.getParagraphs().add(generateMediumText("Cpf"));
-        page.getParagraphs().add(generateSmallText(patient.getCpf(),aligment.Left));
+        //page.getParagraphs().add(generateSmallText(patient.getCpf(),aligment.Left));
         page.getParagraphs().add(generateMediumText("Email"));
-        page.getParagraphs().add(generateSmallText(patient.getEmail(),aligment.Left));
+        //page.getParagraphs().add(generateSmallText(patient.getEmail(),aligment.Left));
         page.getParagraphs().add(generateMediumText("Telefone"));
-        page.getParagraphs().add(generateSmallText(patient.getPhone_number(),aligment.Left));
+        //page.getParagraphs().add(generateSmallText(patient.getPhone_number(),aligment.Left));
 
         page.getParagraphs().add(generateTopic("Motivo"));
         page.getParagraphs().add(generateSmallText(medicalRecord.getMotive()));
@@ -61,10 +61,10 @@ public class MedicalRecordPdfController {
 
 
         page.getParagraphs().add(generateTopic("Perguntas"));
-        for (Questions question : questionsList) {
-            page.getParagraphs().add(generateMediumText(question.getTitle()));
-            page.getParagraphs().add(generateSmallText(question.getAnswer(),aligment.Left));
-        }
+//        for (Questions question : questionsList) {
+//            page.getParagraphs().add(generateMediumText(question.getTitle()));
+//            page.getParagraphs().add(generateSmallText(question.getAnswer(),aligment.Left));
+//        }
 
 
 

@@ -6,11 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.UUID;
-
 @Entity
 @Table(name = "logs")
 @Getter
@@ -19,18 +14,18 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Logs {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "message", columnDefinition = "TEXT")
+    @Column(name = "message")
     private String message;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
 
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private String date;
 
     @Column(name = "hour", nullable = false)
-    private LocalTime hour;
+    private String hour;
 }

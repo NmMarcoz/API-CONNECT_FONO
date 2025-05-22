@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -33,34 +34,35 @@ public class Patient extends Person {
 
     @Column(name = "birth_year")
     @NotNull
-    private LocalDate birth_year;
+    private String birth_year;
 
     @Column(name = "gender")
     @NotNull
     @Size(max = 1)
-    private char gender;
+    private String gender;
 
-    @Column(name = "occupation", columnDefinition = "TEXT")
+    @Column(name = "occupation")
     private String occupation;
 
-    @Column(name = "education_level", columnDefinition = "TEXT")
+    @Column(name = "education_level")
     private String education_level;
 
-    @OneToMany(mappedBy = "patient")
+    //    @OneToMany(mappedBy = "patient")
+    @OneToMany
     @JsonProperty(access = Access.WRITE_ONLY)
-   // @JoinColumn(name= "patient_id", nullable = false, updatable = true)
+    @JoinColumn(name = "patient_id", nullable = false, updatable = true)
     private List<Dependent> dependents;
 
-    @OneToMany(mappedBy = "patient")
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Consultation> consultations;
+//    @OneToMany(mappedBy = "patient")
+
 
     @Column(name = "type")
     @NotNull
     private String type;
 
-    @Column(name = "address", columnDefinition = "TEXT")
+    @Column(name = "address")
     @NotNull
     private String address;
+
 
 }

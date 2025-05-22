@@ -31,7 +31,7 @@ public class LogsService {
         return logs;
     }
 
-    public Logs getById(UUID id){
+    public Logs getById(Integer id){
         return logsRepository.findById(id).orElseThrow(
                 ()-> new BadRequestException("Não existe log cadastrado com esse id")
         );
@@ -45,7 +45,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDateAndCpf(LocalDate date, String cpf){
+    public List<Logs> getByDateAndCpf(String date, String cpf){
         List<Logs> logs = logsRepository.getLogsByDateAndCpf(date, cpf);
         if(logs.isEmpty()){
             throw new BadRequestException("Nenhum log foi encontrado");
@@ -53,7 +53,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDate(LocalDate date){
+    public List<Logs> getByDate(String date){
         List<Logs> logs = logsRepository.getLogsByDate(date);
         if(logs.isEmpty()){
             throw new BadRequestException("Não há logs cadastrados nessa data");
@@ -61,7 +61,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDateInterval(LocalDate beginDate, LocalDate endDate){
+    public List<Logs> getByDateInterval(String beginDate, String endDate){
         List<Logs> logs = logsRepository.getLogsByIntervalDate(beginDate, endDate);
         if(logs.isEmpty()){
             throw new BadRequestException("Não há logs nesse intervalo de data");
@@ -78,7 +78,7 @@ public class LogsService {
         return logSaved;
     }
 
-    public Logs update(UUID id, Logs logs){
+    public Logs update(Integer id, Logs logs){
         Logs newLog = getById(id);
         if(logs.getCpf() != null){
             newLog.setCpf(logs.getCpf());

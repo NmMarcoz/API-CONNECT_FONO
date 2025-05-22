@@ -35,19 +35,19 @@ public class LogsController {
     }
 
     @GetMapping("/bydate/{date}")
-    public ResponseEntity<List<Logs>> getLogsByDate(@PathVariable LocalDate date){
+    public ResponseEntity<List<Logs>> getLogsByDate(@PathVariable String date){
         List<Logs> logs = logsService.getByDate(date);
         return ResponseEntity.ok().body(logs);
     }
 
     @GetMapping("bydate/{beginDate}/{endDate}")
-    public ResponseEntity<List<Logs>> getByDateInterval(@PathVariable LocalDate beginDate, @PathVariable LocalDate endDate){
+    public ResponseEntity<List<Logs>> getByDateInterval(@PathVariable String beginDate, @PathVariable String endDate){
         List<Logs> logs = logsService.getByDateInterval(beginDate, endDate);
         return ResponseEntity.ok().body(logs);
     }
 
     @GetMapping("/bydateAndCpf/{date}/{cpf}")
-    public ResponseEntity<List<Logs>> getLogsByDateAndCpf(@PathVariable LocalDate date, @PathVariable String cpf){
+    public ResponseEntity<List<Logs>> getLogsByDateAndCpf(@PathVariable String date, @PathVariable String cpf){
         List<Logs> logs = logsService.getByDateAndCpf(date, cpf);
         return ResponseEntity.ok().body(logs);
     }
@@ -57,14 +57,14 @@ public class LogsController {
         if(logs.getMessage() == null || logs.getCpf() == null ){
             throw new BadRequestException("Campos obrigatórios: message, cpf");
         }
-        logs.setDate(LocalDate.now());
-        logs.setHour(LocalTime.now());
+        logs.setDate(String.valueOf(LocalDate.now()));
+        logs.setHour(String.valueOf(LocalTime.now()));
         logsService.create(logs);
         return ResponseEntity.ok().body(buildSuccessResponse(200, "Log criado com sucesso"));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody Logs logs){
+    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody Logs logs){
         Logs logsUpdated = logsService.update(id, logs);
         return ResponseEntity.ok().body(buildSuccessResponse(200, "Log atualizado com sucesso"));
     }

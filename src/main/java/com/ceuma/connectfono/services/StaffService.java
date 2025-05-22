@@ -23,7 +23,7 @@ public class StaffService {
     }
 
     @Transactional
-    public Staff update(UUID id,Staff obj){
+    public Staff update(Integer id,Staff obj){
         Staff newStaff = staffRepository.findById(id).orElseThrow(
                 () -> new BadRequestException("Não existe um staff com esse id"));
         newStaff.setLevel(obj.getLevel());
@@ -42,7 +42,7 @@ public class StaffService {
         return staffs;
     }
 
-    public Staff getById(UUID id){
+    public Staff getById(Integer id){
         Staff staff = this.staffRepository.findById(id).orElse(null);
         if(staff == null){
             throw new BadRequestException("sem staff cadastrado");

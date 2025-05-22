@@ -6,10 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public interface DependentRepository extends JpaRepository<Dependent, UUID> {
+public interface DependentRepository extends JpaRepository<Dependent, Integer> {
     @Query(value = "SELECT * FROM dependent WHERE patient_id = :patient_id", nativeQuery = true )
-    List<Dependent> getByPatientId(@Param("patient_id") UUID patientId);
+    List<Dependent> getByPatientId(@Param("patient_id") Integer patientId);
 }

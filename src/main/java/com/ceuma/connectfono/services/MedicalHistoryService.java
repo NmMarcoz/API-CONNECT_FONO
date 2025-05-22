@@ -17,7 +17,7 @@ public class MedicalHistoryService {
         return medicalHistoryRepository.save(medicalHistory);
     }
 
-    public MedicalHistory findByMedicalRecordId(UUID id){
+    public MedicalHistory findByMedicalRecordId(Integer id){
         MedicalHistory medicalHistory = medicalHistoryRepository.findByMedicalRecordId(id);
         if(medicalHistory == null){
             throw new BadRequestException("Sem anamnese cadastrada para esse prontuário");

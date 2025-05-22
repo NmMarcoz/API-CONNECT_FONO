@@ -37,8 +37,6 @@ public class DependentController {
             throw new BadRequestException("Insira o CPF do paciente");
         }
 
-        dependent.setPatient(patientService.findByCpf(dependentDto.getPatientCpf()));
-
         Dependent depedentSaved = dependentService.create(dependent);
         return ResponseEntity.status(201).body(buildGenericResponse(201, "dependente cadastrado com sucesso"));
 
@@ -51,19 +49,19 @@ public class DependentController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<Dependent>> getPatientById(@PathVariable("id") UUID id) {
+    public ResponseEntity<List<Dependent>> getPatientById(@PathVariable("id") Integer id) {
         List<Dependent> dependents = dependentService.getByPatientId(id);
         return ResponseEntity.ok().body(dependents);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody Dependent dependent) {
+    public ResponseEntity<Object> update(@PathVariable("id") Integer id, @RequestBody Dependent dependent) {
         Dependent dependentUpdated = dependentService.update(id, dependent);
         return ResponseEntity.ok().body(buildGenericResponse(200, "dependente atualizado com sucesso"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") Integer id) {
         dependentService.delete(id);
         return ResponseEntity.status(200).body(buildGenericResponse(200, "dependente deletado com sucesso"));
     }

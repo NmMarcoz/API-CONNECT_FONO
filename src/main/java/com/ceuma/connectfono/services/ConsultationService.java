@@ -36,12 +36,12 @@ public class ConsultationService {
         return consultations;
     }
 
-    public Consultation getById(UUID id){
+    public Consultation getById(Integer id){
         Optional<Consultation> consultation = this.consultationRepository.findById(id);
         return consultation.orElseThrow(() -> new BadRequestException("Não há consultas cadastradas com esse id"));
     }
 
-    public List<Consultation> getByPatientId(UUID id){
+    public List<Consultation> getByPatientId(Integer id){
         Patient patient = patientRepository.findById(id).orElseThrow(
                 ()->{
                     throw new BadRequestException("Não existe nenhum paciente com esse id");
@@ -56,7 +56,7 @@ public class ConsultationService {
     }
 
     @Transactional
-    public Consultation update(Consultation obj, UUID id){
+    public Consultation update(Consultation obj, Integer id){
         Consultation newConsultation = getById(id);
         newConsultation.setTitle(obj.getTitle());
         newConsultation.setDescription(obj.getDescription());

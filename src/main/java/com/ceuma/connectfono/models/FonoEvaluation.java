@@ -19,13 +19,8 @@ import java.util.UUID;
 
 public class FonoEvaluation {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
-
-//    @OneToOne
-//    @JoinColumn(name = "medical_record_id")
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    private MedicalRecord medicalRecord;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
 
     // Fala e Linguagem
     @Column(name = "sound_production")

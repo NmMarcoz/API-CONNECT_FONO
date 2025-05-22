@@ -17,13 +17,13 @@ import java.util.UUID;
 @NoArgsConstructor
 public class SmallMedicalRecordDTO {
     @JsonProperty(value = "id")
-    private UUID id;
+    private Integer id;
 
     @JsonProperty(value = "sign_in")
     private String signIn;
 
     @JsonProperty(value = "date")
-    private LocalDate date;
+    private String date;
 
     private Staff staff;
 

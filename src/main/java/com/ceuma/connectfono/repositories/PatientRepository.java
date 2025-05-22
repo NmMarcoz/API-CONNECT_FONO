@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PatientRepository extends JpaRepository<Patient, UUID> {
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "SELECT * FROM patient WHERE type = 'ALUNO'", nativeQuery = true)
     List<Patient> findAllAlunos();
 

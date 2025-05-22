@@ -15,25 +15,35 @@ import java.util.UUID;
 @Setter
 public class MedicalHistory {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @OneToOne
     @JoinColumn(name = "medical_record_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private MedicalRecord medicalRecord;
 
-    @Column(name = "annotations", columnDefinition = "TEXT")
+
+    @ManyToOne()
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    @OneToOne
+    @JoinColumn(name = "fono_evaluation_id")
+    private FonoEvaluation fonoEvaluation;
+
+    @Column(name = "annotations")
     private String annotations;
 
-    @Column(name = "complementary_exams", columnDefinition = "TEXT")
+    @Column(name = "complementary_exams")
     private String complementaryExams;
 
-    @Column(name = "orientation", columnDefinition = "TEXT")
+    @Column(name = "orientation")
     private String orientation;
 
     @OneToMany
     @JsonManagedReference
     private List<Questions> questions;
+
 
 }

@@ -1,6 +1,7 @@
 package com.ceuma.connectfono.dto;
 
 import com.ceuma.connectfono.models.Consultation;
+import com.ceuma.connectfono.models.Patient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,9 @@ import java.util.Date;
 public class ConsultationRequestDTO {
     @JsonProperty("consultation")
     private Consultation consultation;
+
+    @JsonProperty("patientId")
+    private Integer patientId;
 
     @JsonProperty("hour")
     private LocalTime hour;

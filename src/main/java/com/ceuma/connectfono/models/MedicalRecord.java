@@ -17,59 +17,48 @@ import java.util.UUID;
 @Table(name = "medical_record")
 public class MedicalRecord {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id;
+    private Integer id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "date")
-    private LocalDate date;
+    private String date;
 
     @Column(name = "consult_name")
     private String consultName;
 
-    @Column(name = "motive", columnDefinition = "TEXT")
+    @Column(name = "motive")
     private String motive;
 
     @Column(name = "duration")
-    private Long duration;
+    private Integer duration;
 
     @Column(name = "sent_by")
     private String sentBy;
 
-    @ManyToOne()
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
 
-    @ManyToOne()
-    @JoinColumn(name = "staff_id", nullable = false)
-    private Staff staff;
+
 
     //Avaliação Fonoaudiologica
-    @OneToOne
-    @JoinColumn(name = "fono_evaluation_id")
-    private FonoEvaluation fonoEvaluation;
 
-    @OneToOne
-    @JoinColumn(name =  "medical_history_id")
-    private MedicalHistory medicalHistory;
 
-    @Column(name = "diagnosis", columnDefinition = "TEXT")
+    @Column(name = "diagnosis")
     private String diagnosis;
 
-    @Column(name = "observations", columnDefinition = "TEXT")
+    @Column(name = "observations")
     private String observations;
 
     //Clinical History
-    @Column(name = "familiar_history", columnDefinition = "TEXT")
+    @Column(name = "familiar_history")
     private String familiarHistory;
 
-    @Column(name = "health_history", columnDefinition = "TEXT")
+    @Column(name = "health_history")
     private String healthStory;
 
-    @Column(name = "developmental_history", columnDefinition = "TEXT")
+    @Column(name = "developmental_history")
     private String developmentalHistory;
 
    //Plano Terapeutico
@@ -85,15 +74,15 @@ public class MedicalRecord {
 
     // Evolução do Tratamento
     @Column(name = "evolution_date")
-    private LocalDate evolutionDate;
+    private String evolutionDate;
 
-    @Column(name = "observed_evolution", columnDefinition = "TEXT")
+    @Column(name = "observed_evolution")
     private String observedEvolution;
 
-    @Column(name = "interventions", columnDefinition = "TEXT")
+    @Column(name = "interventions")
     private String interventions;
 
-    @Column(name = "orientations", columnDefinition = "TEXT")
+    @Column(name = "orientations")
     private String orientations;
 
     // Encerramento do Tratamento
