@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,49 +18,60 @@ public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
 
     @Column(name = "consult_name")
     private String consultName;
 
-    @Column(name = "motive")
+    @Column(name = "motive", columnDefinition = "TEXT")
     private String motive;
 
     @Column(name = "duration")
-    private Integer duration;
+    private Long duration;
 
     @Column(name = "sent_by")
     private String sentBy;
 
+    @ManyToOne()
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
-
+    @ManyToOne()
+    @JoinColumn(name = "staff_id", nullable = false)
+    private Staff staff;
 
     //Avaliação Fonoaudiologica
+    @OneToOne
+    @JoinColumn(name = "fono_evaluation_id")
+    private FonoEvaluation fonoEvaluation;
 
+    @OneToOne
+    @JoinColumn(name =  "medical_history_id")
+    private MedicalHistory medicalHistory;
 
-    @Column(name = "diagnosis")
+    @Column(name = "diagnosis", columnDefinition = "TEXT")
     private String diagnosis;
 
-    @Column(name = "observations")
+    @Column(name = "observations", columnDefinition = "TEXT")
     private String observations;
 
     //Clinical History
-    @Column(name = "familiar_history")
+    @Column(name = "familiar_history", columnDefinition = "TEXT")
     private String familiarHistory;
 
-    @Column(name = "health_history")
+    @Column(name = "health_history", columnDefinition = "TEXT")
     private String healthStory;
 
-    @Column(name = "developmental_history")
+    @Column(name = "developmental_history", columnDefinition = "TEXT")
     private String developmentalHistory;
 
-   //Plano Terapeutico
+    //Plano Terapeutico
 
     @Column(name = "objectives")
     private String objectives;
@@ -74,15 +84,15 @@ public class MedicalRecord {
 
     // Evolução do Tratamento
     @Column(name = "evolution_date")
-    private String evolutionDate;
+    private LocalDate evolutionDate;
 
-    @Column(name = "observed_evolution")
+    @Column(name = "observed_evolution", columnDefinition = "TEXT")
     private String observedEvolution;
 
-    @Column(name = "interventions")
+    @Column(name = "interventions", columnDefinition = "TEXT")
     private String interventions;
 
-    @Column(name = "orientations")
+    @Column(name = "orientations", columnDefinition = "TEXT")
     private String orientations;
 
     // Encerramento do Tratamento

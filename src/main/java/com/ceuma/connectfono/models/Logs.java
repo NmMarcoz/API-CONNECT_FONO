@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "logs")
 @Getter
@@ -15,21 +18,17 @@ import lombok.Setter;
 public class Logs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "message")
+    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
 
     @Column(name = "date", nullable = false)
-    private String date;
+    private LocalDate date;
 
     @Column(name = "hour", nullable = false)
-    private String hour;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="staff_id")
-    private Staff staff;
+    private LocalTime hour;
 }

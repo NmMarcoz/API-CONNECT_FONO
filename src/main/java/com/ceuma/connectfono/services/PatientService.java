@@ -2,8 +2,6 @@ package com.ceuma.connectfono.services;
 
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.repositories.DependentRepository;
-import com.ceuma.connectfono.repositories.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +37,7 @@ public class PatientService {
         List<Patient> patients = this.patientRepository.findAllExterno();
         return patients;
     }
-    public Patient findById(Integer id){
+    public Patient findById(UUID id){
         Optional<Patient> patient = patientRepository.findById(id);
         return patient.orElseThrow(() -> new BadRequestException(
                 "Paciente não encontrado"
@@ -63,7 +61,7 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient update(Patient obj, Integer id){
+    public Patient update(Patient obj, UUID id){
         System.out.println(obj.getCpf());
         Patient newPatient = findById(id);
 //        if (obj.getCpf() != newPatient.getCpf()){

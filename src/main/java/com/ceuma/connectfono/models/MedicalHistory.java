@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "medical_history")
@@ -16,34 +15,24 @@ import java.util.UUID;
 public class MedicalHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "medical_record_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private MedicalRecord medicalRecord;
 
-
-    @ManyToOne()
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
-
-    @OneToOne
-    @JoinColumn(name = "fono_evaluation_id")
-    private FonoEvaluation fonoEvaluation;
-
-    @Column(name = "annotations")
+    @Column(name = "annotations", columnDefinition = "TEXT")
     private String annotations;
 
-    @Column(name = "complementary_exams")
+    @Column(name = "complementary_exams", columnDefinition = "TEXT")
     private String complementaryExams;
 
-    @Column(name = "orientation")
+    @Column(name = "orientation", columnDefinition = "TEXT")
     private String orientation;
 
     @OneToMany
     @JsonManagedReference
     private List<Questions> questions;
-
 
 }

@@ -1,14 +1,10 @@
 package com.ceuma.connectfono.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.beans.ConstructorProperties;
-import java.util.UUID;
 
 @Entity
 @Table(name = "fonoevaluation")
@@ -20,7 +16,7 @@ import java.util.UUID;
 public class FonoEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Long id;
 
     // Fala e Linguagem
     @Column(name = "sound_production")

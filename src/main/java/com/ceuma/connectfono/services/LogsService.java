@@ -2,17 +2,14 @@ package com.ceuma.connectfono.services;
 
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.Logs;
-import com.ceuma.connectfono.models.Patient;
 import com.ceuma.connectfono.repositories.LogsRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import com.ceuma.connectfono.repositories.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class LogsService {
@@ -31,7 +28,7 @@ public class LogsService {
         return logs;
     }
 
-    public Logs getById(Integer id){
+    public Logs getById(Long id){
         return logsRepository.findById(id).orElseThrow(
                 ()-> new BadRequestException("Não existe log cadastrado com esse id")
         );
@@ -45,7 +42,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDateAndCpf(String date, String cpf){
+    public List<Logs> getByDateAndCpf(LocalDate date, String cpf){
         List<Logs> logs = logsRepository.getLogsByDateAndCpf(date, cpf);
         if(logs.isEmpty()){
             throw new BadRequestException("Nenhum log foi encontrado");
@@ -53,7 +50,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDate(String date){
+    public List<Logs> getByDate(LocalDate date){
         List<Logs> logs = logsRepository.getLogsByDate(date);
         if(logs.isEmpty()){
             throw new BadRequestException("Não há logs cadastrados nessa data");
@@ -61,7 +58,7 @@ public class LogsService {
         return logs;
     }
 
-    public List<Logs> getByDateInterval(String beginDate, String endDate){
+    public List<Logs> getByDateInterval(LocalDate beginDate, LocalDate endDate){
         List<Logs> logs = logsRepository.getLogsByIntervalDate(beginDate, endDate);
         if(logs.isEmpty()){
             throw new BadRequestException("Não há logs nesse intervalo de data");
@@ -78,7 +75,7 @@ public class LogsService {
         return logSaved;
     }
 
-    public Logs update(Integer id, Logs logs){
+    public Logs update(Long id, Logs logs){
         Logs newLog = getById(id);
         if(logs.getCpf() != null){
             newLog.setCpf(logs.getCpf());

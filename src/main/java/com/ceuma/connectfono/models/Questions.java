@@ -8,19 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "questions")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Questions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -28,4 +25,9 @@ public class Questions {
     @Column(name = "answer")
     private String answer;
 
+    @ManyToOne
+    @JoinColumn(name = "medical_history_id")
+    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private MedicalHistory medicalHistory;
 }
