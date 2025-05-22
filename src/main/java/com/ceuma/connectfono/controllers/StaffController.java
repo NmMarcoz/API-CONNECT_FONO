@@ -118,7 +118,7 @@ public class StaffController {
             throw new BadRequestException("Email ou senha inválidos");
         }
         String message = "O staff " + staffFound.getCpf() + " efetuou login";
-        Logs log = new Logs(staffFound.getId(),message, staffFound.getCpf(), String.valueOf(LocalDate.now()), String.valueOf(LocalTime.now()));
+        Logs log = new Logs(staffFound.getId(),message, staffFound.getCpf(), String.valueOf(LocalDate.now()), String.valueOf(LocalTime.now()), staffFound);
         logsService.create(log);
         AuthenticateResponseDTO authenticateResponseDTO =
                 new AuthenticateResponseDTO(

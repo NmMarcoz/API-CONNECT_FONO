@@ -28,4 +28,8 @@ public class Logs {
 
     @Column(name = "hour", nullable = false)
     private String hour;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="staff_id")
+    private Staff staff;
 }

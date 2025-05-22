@@ -38,6 +38,7 @@ build/
 ### OS ###
 .DS_Store
 
+**.db
 .env
 
 */medicalRecordsPdf
