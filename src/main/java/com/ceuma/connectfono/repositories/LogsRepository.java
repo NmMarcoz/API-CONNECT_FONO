@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 public interface LogsRepository extends JpaRepository<Logs, Long> {
     @Query(value = " SELECT * FROM logs WHERE cpf = :cpf", nativeQuery = true)

@@ -33,7 +33,7 @@ build/
 ### VS Code ###
 .vscode/
 
-**/resources
+
 
 ### OS ###
 .DS_Store

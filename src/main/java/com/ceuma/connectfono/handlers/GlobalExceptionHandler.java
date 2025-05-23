@@ -3,12 +3,14 @@ package com.ceuma.connectfono.handlers;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.hibernate.JDBCException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.sqlite.SQLiteException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -63,6 +66,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 request
         );
 
+    }
+
+    @ExceptionHandler(SQLiteException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> HandleSqliteException(SQLiteException exception, WebRequest request){
+        log.error("ERRO AO INSERIR NO BANCO DE DADOS" + exception.getMessage());
+        log.error("error code " + exception.getErrorCode());
+        return buildErrorResponse(
+                exception,
+                getSqliteErrorMessage(exception.getErrorCode()),
+                HttpStatus.BAD_REQUEST,
+                request
+        );
+    }
+
+    @ExceptionHandler(JpaSystemException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> HandleJpaExceptions(JpaSystemException exception, WebRequest request){
+        final String errorMessage = "Erro interno do banco de dados";
+        if(exception.getRootCause() instanceof SQLiteException) return HandleSqliteException((SQLiteException) exception.getRootCause(), request);
+        log.error("ERRO AO INSERIR NO BANCO DE DADOS" + exception.getMostSpecificCause());
+        return buildErrorResponse(
+                exception,
+                errorMessage + " " +  exception.getMostSpecificCause(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request
+        );
     }
 
     // Excepetion para pegar violação de dados
@@ -131,5 +161,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 
+    public static String getSqliteErrorMessage(int errorCode){
+        switch (errorCode){
+            case 19:
+                return "UM CAMPO JÁ EXISTENTE FOI INSERIDO";
+            default:
+                return "ERRO DESCONHECIDO";
+        }
+    }
 
 }
