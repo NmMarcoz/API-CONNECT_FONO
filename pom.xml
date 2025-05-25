@@ -39,6 +39,22 @@
 		</repository>
 	</repositories>
 
+	<profiles>
+		<profile>
+			<id> release </id>
+			<properties>
+
+				<activatedProperties>release</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
+
 
 
 	<dependencies>
@@ -138,12 +154,15 @@
 	</dependencies>
 
 
+
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
