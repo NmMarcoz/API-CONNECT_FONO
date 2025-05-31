@@ -17,4 +17,7 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
 
     @Query(value = "SELECT * FROM medical_record WHERE staff_id = :id", nativeQuery = true)
     List<MedicalRecord> getByStaffId(@Param("id") Long staffId);
+
+    @Query(value = "SELECT * FROM medical_record WHERE staff_id = (SELECT id FROM staff where cpf = :cpf)", nativeQuery = true)
+    List<MedicalRecord> getByStaffCpf(@Param("cpf") String cpf);
 }

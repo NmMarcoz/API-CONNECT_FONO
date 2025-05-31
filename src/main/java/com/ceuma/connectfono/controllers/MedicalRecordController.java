@@ -53,6 +53,7 @@ public class MedicalRecordController {
         return ResponseEntity.created(uri).body(medicalRecordDTOSaved);
 
     }
+
     @PostMapping("/v2")
     public ResponseEntity<Object> createv2(@RequestBody MedicalRecord  medicalRecord) {
         if(medicalRecord.getMedicalHistory() == null){
@@ -65,6 +66,7 @@ public class MedicalRecordController {
         MedicalRecord medicalRecordSaved = medicalRecordService.createv2(medicalRecord);
         return ResponseEntity.status(201).body(buildSuccessResponse(201, "prontuario registrado"));
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id){
         MedicalRecord medicalRecord = medicalRecordService.getById(id);
@@ -87,6 +89,12 @@ public class MedicalRecordController {
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<List<SmallMedicalRecordDTO>> getByPatientCpf(@PathVariable String cpf){
         List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByPatientCpf(cpf);
+        return ResponseEntity.ok().body(medicalRecords);
+    }
+
+    @GetMapping("/staff/cpf/{cpf}")
+    public ResponseEntity<List<SmallMedicalRecordDTO>> getByStaffCpf(@PathVariable String cpf){
+        List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByStaffCpf(cpf);
         return ResponseEntity.ok().body(medicalRecords);
     }
 
