@@ -2,6 +2,7 @@ package com.ceuma.connectfono.services;
 
 import com.ceuma.connectfono.dto.MedicalRecordDTO;
 import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
+import com.ceuma.connectfono.dto.SmallPatientDTO;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.models.FonoEvaluation;
 import com.ceuma.connectfono.models.MedicalHistory;
@@ -108,14 +109,18 @@ public class MedicalRecordService {
             throw new BadRequestException("Nenhum prontuario cadastrado por esse staff");
         }
         List<SmallMedicalRecordDTO> smallMedicalRecordDTO = new ArrayList<>();
-        medicalRecords.forEach(medicalRecord -> smallMedicalRecordDTO.add(
-                new SmallMedicalRecordDTO(
-                        medicalRecord.getId(),
-                        medicalRecord.getSignIn(),
-                        medicalRecord.getDate(),
-                        medicalRecord.getStaff()
-                )
-        ));
+        medicalRecords.forEach(medicalRecord -> {
+            SmallPatientDTO smallPatientDTO = new SmallPatientDTO(medicalRecord.getPatient().getName(), medicalRecord.getPatient().getCpf());
+            smallMedicalRecordDTO.add(
+                    new SmallMedicalRecordDTO(
+                            medicalRecord.getId(),
+                            medicalRecord.getSignIn(),
+                            medicalRecord.getDate(),
+                            medicalRecord.getStaff(),
+                            smallPatientDTO
+                    ))
+            ;
+        });
 
         return smallMedicalRecordDTO;
     }
@@ -128,7 +133,16 @@ public class MedicalRecordService {
         }
         List<SmallMedicalRecordDTO> smalLMedicalRecords = new ArrayList<>();
         medicalRecords.forEach(medicalRecord -> {
-            smalLMedicalRecords.add(new SmallMedicalRecordDTO(medicalRecord.getId(), medicalRecord.getSignIn(), medicalRecord.getDate(), medicalRecord.getStaff()));
+            SmallPatientDTO smallPatientDTO = new SmallPatientDTO(medicalRecord.getPatient().getName(), medicalRecord.getPatient().getCpf());
+            smalLMedicalRecords.add(
+                    new SmallMedicalRecordDTO(
+                            medicalRecord.getId(),
+                            medicalRecord.getSignIn(),
+                            medicalRecord.getDate(),
+                            medicalRecord.getStaff(),
+                            smallPatientDTO
+                            ))
+            ;
         });
         return smalLMedicalRecords;
     }
