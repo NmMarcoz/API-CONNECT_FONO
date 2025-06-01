@@ -21,6 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public class Patient extends Person {
+    public Patient(Person obj){
+           
+    }
+    
     @Column(name = "cpf", unique = true)
     @NotNull
     @Size(max = 14)

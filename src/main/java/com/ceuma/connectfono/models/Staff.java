@@ -13,6 +13,10 @@ import lombok.*;
 @NoArgsConstructor
 public class Staff extends Person{
 
+    public Staff (Person obj){
+        
+    }
+
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column (name = "password")
     @Size(min = 6)
