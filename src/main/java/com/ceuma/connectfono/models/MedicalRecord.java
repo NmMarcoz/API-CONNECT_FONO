@@ -8,13 +8,15 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+import com.ceuma.connectfono.core.interfaces.Clonneable;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "medical_record")
-public class MedicalRecord {
+public class MedicalRecord implements Clonneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -105,4 +107,8 @@ public class MedicalRecord {
 
     @Column(name = "sign_in")
     private String signIn;
+
+    public MedicalRecord clone(){
+        return this;
+    }
 }
