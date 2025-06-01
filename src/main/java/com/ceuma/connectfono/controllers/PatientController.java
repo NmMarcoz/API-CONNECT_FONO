@@ -1,5 +1,6 @@
 package com.ceuma.connectfono.controllers;
 
+import com.ceuma.connectfono.core.builders.PatientBuilder;
 import com.ceuma.connectfono.exceptions.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
 import com.ceuma.connectfono.models.Patient;
@@ -107,11 +108,15 @@ public class PatientController {
         if(obj.getGender() != 'M' && obj.getGender() != 'F') {
             throw new BadRequestException("Gênero só pode ser M ou F");
         }
+        PatientBuilder patientBuilder = getPatientBuilder(obj);
 
-        this.patientService.create(obj);
+        Patient buildedPatient = patientBuilder.build();
+        this.patientService.create(buildedPatient);
+        //tenho que saber por que exatamente tem que fazer esse fromcurrentrequest com uri.
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado"));
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Long id) {
@@ -148,5 +153,25 @@ public class PatientController {
     public ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, String message, Exception exception) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
         return ResponseEntity.status(httpStatus).body(errorResponse);
+    }
+
+    private static PatientBuilder getPatientBuilder(Patient obj) {
+        PatientBuilder patientBuilder = new PatientBuilder();
+
+        patientBuilder.setName(obj.getName());
+        patientBuilder.setCpf(obj.getCpf());
+        patientBuilder.setEmail(obj.getEmail());
+        patientBuilder.setGender(obj.getGender());
+        patientBuilder.setType(obj.getType());
+        patientBuilder.setRa(obj.getRa());
+        patientBuilder.setDependents(obj.getDependents());
+        patientBuilder.setAddress(obj.getAddress());
+        patientBuilder.setBirthYear(obj.getBirth_year());
+        patientBuilder.setConsultations(obj.getConsultations());
+        patientBuilder.setOcupation(obj.getOccupation());
+        patientBuilder.setEducationLevel(obj.getEducation_level());
+        patientBuilder.setPhoneNumber(obj.getPhone_number());
+
+        return patientBuilder;
     }
 }

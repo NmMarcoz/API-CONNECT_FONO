@@ -32,7 +32,7 @@ public class ConsultationController {
         Consultation obj = requestDTO.getConsultation();
         LocalTime requestHour = requestDTO.getHour();
 
-        if(requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()){
+        if (requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()) {
             throw new BadRequestException("Não é possível agendar uma consulta para o passado");
         }
         if (obj == null) {
@@ -45,7 +45,7 @@ public class ConsultationController {
         obj.setStatus("pendente");
         System.out.println("chegou aqui");
 
-        if(obj.getTitle().length() > 12){
+        if (obj.getTitle().length() > 12) {
             throw new BadRequestException("tamanho inválido de titulo: 12 letras no máximo");
         }
 
