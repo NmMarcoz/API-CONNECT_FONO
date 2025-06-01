@@ -3,6 +3,8 @@ package com.ceuma.connectfono.core.models;
 import lombok.NoArgsConstructor;
 
 
+
+//TODO Decorator
 @NoArgsConstructor
 public class ConcretePerson extends Person {
     public ConcretePerson(Long id, String name, String phone_number, String email){

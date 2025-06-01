@@ -31,4 +31,11 @@ public abstract class Person {
     @Column(name = "email", unique = true)
     @NotNull
     private String email;
+
+    public void showInfo(){
+        System.out.println("Nome" + this.getName());
+        System.out.println("Id" + this.getId());
+        System.out.println("Email" + this.getEmail());
+        System.out.println("Numero de telefone" + this.getPhone_number());
+    }
 }

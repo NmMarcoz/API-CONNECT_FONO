@@ -1,6 +1,8 @@
 package com.ceuma.connectfono.controllers;
 
+import com.ceuma.connectfono.core.adapters.PersonAdapter;
 import com.ceuma.connectfono.core.builders.PatientBuilder;
+import com.ceuma.connectfono.core.decorators.ConcretePersonDecorator;
 import com.ceuma.connectfono.core.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
 import com.ceuma.connectfono.core.models.Patient;
@@ -109,8 +111,16 @@ public class PatientController {
             throw new BadRequestException("Gênero só pode ser M ou F");
         }
         PatientBuilder patientBuilder = getPatientBuilder(obj);
-
+        //TODO -> aplicação do builder
         Patient buildedPatient = patientBuilder.build();
+
+        PersonAdapter personAdapter = new PersonAdapter();
+       //TODO -> APlicação do adapter
+        ConcretePersonDecorator decoratedObj = personAdapter.personDecorator(buildedPatient);
+
+        //TODO -> Aplicação do decorator
+        decoratedObj.showInfo();
+
         this.patientService.create(buildedPatient);
         //tenho que saber por que exatamente tem que fazer esse fromcurrentrequest com uri.
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

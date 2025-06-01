@@ -1,6 +1,7 @@
 package com.ceuma.connectfono.handlers;
 
 import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.utils.SqliteErrorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.JDBCException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,9 +71,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> HandleSqliteException(SQLiteException exception, WebRequest request){
         log.error("ERRO AO INSERIR NO BANCO DE DADOS" + exception.getMessage());
         log.error("error code " + exception.getErrorCode());
+        String message = exception.getErrorCode() == 19
+                ? "Um campo duplicado foi inserido: " + SqliteErrorUtils.extractUniqueConstraintField(exception.getMessage())
+                : getSqliteErrorMessage(exception.getErrorCode());
         return buildErrorResponse(
                 exception,
-                getSqliteErrorMessage(exception.getErrorCode()),
+                message,
                 HttpStatus.BAD_REQUEST,
                 request
         );
