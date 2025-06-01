@@ -1,4 +1,4 @@
-package com.ceuma.connectfono.models;
+package com.ceuma.connectfono.core.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,9 +1,9 @@
-package com.ceuma.connectfono.controllers;
+package com.ceuma.connectfono.core.facades;
 
 import com.aspose.pdf.*;
-import com.ceuma.connectfono.models.MedicalRecord;
-import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.models.Questions;
+import com.ceuma.connectfono.core.models.MedicalRecord;
+import com.ceuma.connectfono.core.models.Patient;
+import com.ceuma.connectfono.core.models.Questions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 
-public class MedicalRecordPdfController {
+public class PdfFacade {
     //private MedicalRecord medicalRecord;
 
     public String generatePdf(MedicalRecord medicalRecord) {

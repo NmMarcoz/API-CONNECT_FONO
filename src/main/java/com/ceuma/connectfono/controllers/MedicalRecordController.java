@@ -1,10 +1,11 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.dto.MedicalRecordDTO;
-import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.MedicalRecord;
-import com.ceuma.connectfono.responses.GenericResponse;
+import com.ceuma.connectfono.core.dto.MedicalRecordDTO;
+import com.ceuma.connectfono.core.dto.SmallMedicalRecordDTO;
+import com.ceuma.connectfono.core.facades.PdfFacade;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.MedicalRecord;
+import com.ceuma.connectfono.core.responses.GenericResponse;
 import com.ceuma.connectfono.services.MedicalRecordService;
 import com.ceuma.connectfono.utils.VerifyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    private MedicalRecordPdfController pdfController = new MedicalRecordPdfController();
+    private PdfFacade pdfController = new PdfFacade();
 
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody MedicalRecordDTO medicalRecordDTO) {

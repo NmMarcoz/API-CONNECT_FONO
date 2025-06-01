@@ -1,9 +1,9 @@
-package com.ceuma.connectfono.dto;
+package com.ceuma.connectfono.core.dto;
 
-import com.ceuma.connectfono.models.FonoEvaluation;
-import com.ceuma.connectfono.models.MedicalHistory;
-import com.ceuma.connectfono.models.MedicalRecord;
-import com.ceuma.connectfono.models.Questions;
+import com.ceuma.connectfono.core.models.FonoEvaluation;
+import com.ceuma.connectfono.core.models.MedicalHistory;
+import com.ceuma.connectfono.core.models.MedicalRecord;
+import com.ceuma.connectfono.core.models.Questions;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

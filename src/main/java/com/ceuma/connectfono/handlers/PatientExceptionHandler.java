@@ -1,6 +1,6 @@
 package com.ceuma.connectfono.handlers;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.core.patient.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

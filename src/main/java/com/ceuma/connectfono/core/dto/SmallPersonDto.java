@@ -1,8 +1,8 @@
-package com.ceuma.connectfono.dto;
+package com.ceuma.connectfono.core.dto;
 
 import com.ceuma.connectfono.core.factories.PersonFactory;
 import com.ceuma.connectfono.core.factories.PersonFactory.PersonType;
-import com.ceuma.connectfono.models.Person;
+import com.ceuma.connectfono.core.models.Person;
 
 public class SmallPersonDto {
     public PersonType personType;

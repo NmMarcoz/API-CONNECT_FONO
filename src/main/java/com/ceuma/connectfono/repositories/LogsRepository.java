@@ -1,6 +1,6 @@
 package com.ceuma.connectfono.repositories;
 
-import com.ceuma.connectfono.models.Logs;
+import com.ceuma.connectfono.core.models.Logs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

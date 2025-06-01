@@ -1,9 +1,8 @@
 package com.ceuma.connectfono.core.adapters;
 
-import com.ceuma.connectfono.models.ConcretePerson;
-import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.models.Person;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.models.ConcretePerson;
+import com.ceuma.connectfono.core.models.Patient;
+import com.ceuma.connectfono.core.models.Staff;
 
 public class PersonAdapter {
     

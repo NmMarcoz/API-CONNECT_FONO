@@ -1,4 +1,4 @@
-package com.ceuma.connectfono.dto;
+package com.ceuma.connectfono.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Questions;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Questions;
 import com.ceuma.connectfono.repositories.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

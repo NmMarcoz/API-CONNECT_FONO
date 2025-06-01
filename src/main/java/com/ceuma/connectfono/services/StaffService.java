@@ -1,7 +1,7 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

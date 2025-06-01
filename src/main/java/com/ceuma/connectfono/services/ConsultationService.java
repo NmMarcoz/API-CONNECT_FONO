@@ -1,9 +1,9 @@
 package com.ceuma.connectfono.services;
 
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Consultation;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.repositories.ConsultationRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import jakarta.transaction.Transactional;

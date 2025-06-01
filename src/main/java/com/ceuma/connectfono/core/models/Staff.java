@@ -1,4 +1,4 @@
-package com.ceuma.connectfono.models;
+package com.ceuma.connectfono.core.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;

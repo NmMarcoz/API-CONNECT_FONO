@@ -1,13 +1,13 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.dto.MedicalRecordDTO;
-import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
-import com.ceuma.connectfono.dto.SmallPatientDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.FonoEvaluation;
-import com.ceuma.connectfono.models.MedicalHistory;
-import com.ceuma.connectfono.models.MedicalRecord;
-import com.ceuma.connectfono.models.Questions;
+import com.ceuma.connectfono.core.dto.MedicalRecordDTO;
+import com.ceuma.connectfono.core.dto.SmallMedicalRecordDTO;
+import com.ceuma.connectfono.core.dto.SmallPatientDTO;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.FonoEvaluation;
+import com.ceuma.connectfono.core.models.MedicalHistory;
+import com.ceuma.connectfono.core.models.MedicalRecord;
+import com.ceuma.connectfono.core.models.Questions;
 import com.ceuma.connectfono.repositories.FonoEvaluationRepository;
 import com.ceuma.connectfono.repositories.MedicalHistoryRepository;
 import com.ceuma.connectfono.repositories.MedicalRecordRepository;

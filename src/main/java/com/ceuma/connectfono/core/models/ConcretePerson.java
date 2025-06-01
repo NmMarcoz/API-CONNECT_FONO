@@ -1,8 +1,6 @@
-package com.ceuma.connectfono.models;
+package com.ceuma.connectfono.core.models;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 
 @NoArgsConstructor

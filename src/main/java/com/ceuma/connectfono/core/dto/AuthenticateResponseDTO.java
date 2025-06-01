@@ -1,6 +1,6 @@
-package com.ceuma.connectfono.dto;
+package com.ceuma.connectfono.core.dto;
 
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.models.Staff;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

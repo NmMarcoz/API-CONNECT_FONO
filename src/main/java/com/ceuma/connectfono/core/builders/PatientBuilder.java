@@ -1,10 +1,10 @@
 package com.ceuma.connectfono.core.builders;
 
 import com.ceuma.connectfono.core.interfaces.PatientBuilderInterface;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Dependent;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Consultation;
+import com.ceuma.connectfono.core.models.Dependent;
+import com.ceuma.connectfono.core.models.Patient;
 
 import java.time.LocalDate;
 import java.util.List;

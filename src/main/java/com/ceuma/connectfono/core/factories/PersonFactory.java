@@ -1,14 +1,11 @@
 package com.ceuma.connectfono.core.factories;
 
-import java.util.Optional;
-
-
 
 import com.ceuma.connectfono.core.interfaces.PersonFactoryInterface;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.models.Person;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Patient;
+import com.ceuma.connectfono.core.models.Person;
+import com.ceuma.connectfono.core.models.Staff;
 
 public class PersonFactory implements PersonFactoryInterface {
     public enum PersonType{

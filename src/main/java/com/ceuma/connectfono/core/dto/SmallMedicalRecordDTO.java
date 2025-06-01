@@ -1,7 +1,6 @@
-package com.ceuma.connectfono.dto;
+package com.ceuma.connectfono.core.dto;
 
-import com.ceuma.connectfono.models.Patient;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.models.Staff;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

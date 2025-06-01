@@ -1,8 +1,8 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Logs;
-import com.ceuma.connectfono.responses.GenericResponse;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Logs;
+import com.ceuma.connectfono.core.responses.GenericResponse;
 import com.ceuma.connectfono.services.LogsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,5 @@
 package com.ceuma.connectfono.utils;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

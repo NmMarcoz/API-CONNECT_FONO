@@ -1,4 +1,4 @@
-package com.ceuma.connectfono.responses;
+package com.ceuma.connectfono.core.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,11 +1,8 @@
 package com.ceuma.connectfono.handlers;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import lombok.Value;
+import com.ceuma.connectfono.core.patient.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.hibernate.JDBCException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

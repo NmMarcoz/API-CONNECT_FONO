@@ -1,7 +1,7 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Logs;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Logs;
 import com.ceuma.connectfono.repositories.LogsRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import com.ceuma.connectfono.repositories.StaffRepository;

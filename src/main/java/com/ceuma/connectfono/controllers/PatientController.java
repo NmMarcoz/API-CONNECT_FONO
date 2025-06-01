@@ -1,12 +1,12 @@
 package com.ceuma.connectfono.controllers;
 
 import com.ceuma.connectfono.core.builders.PatientBuilder;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.core.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.repositories.PatientRepository;
-import com.ceuma.connectfono.responses.GenericResponse;
-import com.ceuma.connectfono.responses.PatientResponse;
+import com.ceuma.connectfono.core.responses.GenericResponse;
+import com.ceuma.connectfono.core.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.utils.StringUtils;
 import jakarta.transaction.Transactional;

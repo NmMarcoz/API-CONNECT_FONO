@@ -1,12 +1,12 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.dto.AuthenticateResponseDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Logs;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.dto.AuthenticateResponseDTO;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Logs;
+import com.ceuma.connectfono.core.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
-import com.ceuma.connectfono.responses.GenericResponse;
-import com.ceuma.connectfono.responses.StaffResponse;
+import com.ceuma.connectfono.core.responses.GenericResponse;
+import com.ceuma.connectfono.core.responses.StaffResponse;
 import com.ceuma.connectfono.services.LogsService;
 import com.ceuma.connectfono.services.StaffService;
 import com.ceuma.connectfono.utils.StringUtils;
@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import static ch.qos.logback.core.util.StringUtil.isNullOrEmpty;
 

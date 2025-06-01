@@ -1,6 +1,6 @@
-package com.ceuma.connectfono.responses;
+package com.ceuma.connectfono.core.responses;
 
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.models.Patient;
 import lombok.Getter;
 import lombok.Setter;
 

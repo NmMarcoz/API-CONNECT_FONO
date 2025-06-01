@@ -1,12 +1,11 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.dto.ConsultationRequestDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.dto.ConsultationRequestDTO;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Consultation;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.services.ConsultationService;
 import com.ceuma.connectfono.services.PatientService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
