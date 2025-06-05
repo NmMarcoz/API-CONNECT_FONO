@@ -125,7 +125,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleDataIntegrityException(DataIntegrityViolationException dataIntegrityViolationException, WebRequest request){
         log.error("Erro de constraint {}", dataIntegrityViolationException.getMessage());
-        final String errorMessage = getConstraintMessage(dataIntegrityViolationException.getMessage());
+        final String message = dataIntegrityViolationException.getMessage().contains("not-null property references a null")
+                ? SqliteErrorUtils.extractConstraintNullViolation(dataIntegrityViolationException.getMessage())
+                : getConstraintMessage(dataIntegrityViolationException.getMessage());
+        final String errorMessage = !message.isEmpty() ?
+                "Um campo obrigatório recebeu um valor nulo: " + message : getConstraintMessage(dataIntegrityViolationException.getMessage());
         log.error(errorMessage);
         return buildErrorResponse(
                 dataIntegrityViolationException,
@@ -139,7 +143,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleBadRequestException(BadRequestException badRequestException, WebRequest request){
         final String errorMessage = badRequestException.getMessage();
-        log.error("[PATIENT]  BAD REQUEST ");
+        log.error("[PATIENT]  BAD REQUEST: {} ", errorMessage);
         return buildErrorResponse(
                 badRequestException,
                 errorMessage,

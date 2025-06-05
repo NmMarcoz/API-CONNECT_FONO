@@ -25,7 +25,7 @@ public class Staff extends Person{
     @Column(name = "cpf", unique = true)
     private String cpf;
 
-    @Column(name = "level")
+    @Column(name = "level", nullable = false)
     private Integer level;
 
 }
