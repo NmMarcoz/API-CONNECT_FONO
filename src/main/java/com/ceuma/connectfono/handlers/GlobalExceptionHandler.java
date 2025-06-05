@@ -124,11 +124,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleDataIntegrityException(DataIntegrityViolationException dataIntegrityViolationException, WebRequest request){
-
-        final String errorMessage =
-                dataIntegrityViolationException.getMessage().contains("foreign key constraint fails") ?
-                        "Não é possível deletar uma entidade com relações ativas no banco de dados. Verifique as subrelações primeiro." :
-                        "Campos duplicados";
+        log.error("Erro de constraint {}", dataIntegrityViolationException.getMessage());
+        final String errorMessage = getConstraintMessage(dataIntegrityViolationException.getMessage());
         log.error(errorMessage);
         return buildErrorResponse(
                 dataIntegrityViolationException,
@@ -169,6 +166,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             default:
                 return "ERRO DESCONHECIDO";
         }
+    }
+
+    public static String getConstraintMessage(String message){
+        if(message.contains("references a null")){
+            return "Verifique o corpo da requisição, uma entidade externa não foi referenciada";
+        }
+        if(message.contains("foreign key constraint fails")){
+            return "Não é possível deletar uma entidade com relações ativas";
+        }
+        return "Erro desconhecido de constraint";
     }
 
 }

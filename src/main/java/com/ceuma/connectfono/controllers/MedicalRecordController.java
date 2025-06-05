@@ -146,6 +146,12 @@ public class MedicalRecordController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecord medicalRecord){
+        MedicalRecord medicalRecordUpdated = medicalRecordService.update(id, medicalRecord);
+        return ResponseEntity.ok().body(medicalRecordUpdated);
+    }
+
     public GenericResponse buildSuccessResponse(int status, String message) {
         GenericResponse genericResponse = new GenericResponse(status, message);
         return genericResponse;

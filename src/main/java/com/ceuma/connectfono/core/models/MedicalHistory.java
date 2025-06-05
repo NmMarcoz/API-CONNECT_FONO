@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class MedicalHistory {
 
     @OneToMany
     @JsonManagedReference
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Questions> questions;
 
 }

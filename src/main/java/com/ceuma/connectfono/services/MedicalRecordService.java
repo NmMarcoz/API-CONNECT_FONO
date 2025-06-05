@@ -11,13 +11,18 @@ import com.ceuma.connectfono.core.models.Questions;
 import com.ceuma.connectfono.repositories.FonoEvaluationRepository;
 import com.ceuma.connectfono.repositories.MedicalHistoryRepository;
 import com.ceuma.connectfono.repositories.MedicalRecordRepository;
+import com.ceuma.connectfono.repositories.QuestionsRepository;
+import com.ceuma.connectfono.utils.NullPropertyUtils;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class MedicalRecordService {
     @Autowired
@@ -30,6 +35,8 @@ public class MedicalRecordService {
     MedicalRecordRepository medicalRecordRepository;
     @Autowired
     private FonoEvaluationRepository fonoEvaluationRepository;
+    @Autowired
+    private QuestionsRepository questionsRepository;
 
     @Transactional
     public MedicalRecordDTO create(MedicalRecordDTO medicalRecordDTO) {
@@ -63,20 +70,76 @@ public class MedicalRecordService {
 
         medicalHistory.setQuestions(null);
         MedicalHistory medicalHistorySaved = medicalHistoryService.create(medicalHistory);
+        log.info("MedicalHistory criado: {}", medicalHistorySaved);
         questions.forEach(question -> {
             question.setMedicalHistory(medicalHistorySaved);
+            log.info("Atualizando questions");
         });
         questionsService.createLot(questions);
 
         FonoEvaluation fonoEvaluationSaved = fonoEvaluationRepository.save(fonoEvaluation);
+        log.info("Fono evaluation criado");
         medicalHistorySaved.setQuestions(questions);
+        log.info("Perguntas adicioonadas");
         medicalRecord.setFonoEvaluation(fonoEvaluationSaved);
+        log.info("Avaliação adicionada ao prontuário");
         medicalRecord.setMedicalHistory(medicalHistorySaved);
+        log.info("Histórico clínico adicionadi ao prontuário");
 
         MedicalRecord medicalRecordSaved = medicalRecordRepository.save(medicalRecord);
+        log.info("Prontuário criado");
 
         return medicalRecord;
 
+    }
+
+    @Transactional
+    public MedicalRecord update(Long id, MedicalRecord medicalRecord) {
+        // Buscar os registros existentes
+        MedicalRecord existingRecord = medicalRecordRepository.findById(id).orElseThrow(
+                () -> new BadRequestException("Prontuário não encontrado para o ID " + id)
+        );
+
+        if(medicalRecord.getMedicalHistory() != null){
+            MedicalHistory existingMedicalHistory = medicalHistoryRepository.findById(existingRecord.getMedicalHistory().getId()).orElseThrow();
+            MedicalHistory medicalHistory = medicalRecord.getMedicalHistory();
+            NullPropertyUtils.copyNonNullProperties(medicalHistory, existingMedicalHistory);
+            log.info("MedicalHistory antes do update");
+            MedicalHistory savedMedicalHistory = medicalHistoryRepository.save(existingMedicalHistory);
+            log.info("MedicalHistory atualizado: {}", savedMedicalHistory.getId());
+            List<Questions> updatedQuestions = new ArrayList<>();
+            existingMedicalHistory.getQuestions().forEach(question -> {
+                log.info("Atualizando questions: {}", question.getTitle());
+                Questions existingQuestion = questionsRepository.findById(question.getId()).orElseThrow();
+                if(question.getTitle() != null){
+                    existingQuestion.setTitle(question.getTitle());
+                }
+                if(question.getAnswer() != null){
+                    existingQuestion.setAnswer(question.getAnswer());
+                }
+                existingQuestion.setMedicalHistory(existingRecord.getMedicalHistory());
+                questionsRepository.save(existingQuestion);
+                updatedQuestions.add(existingQuestion);
+            });
+            existingRecord.getMedicalHistory().setQuestions(updatedQuestions);
+        }else{
+            medicalRecord.setMedicalHistory(medicalHistoryRepository.findByMedicalRecordId(existingRecord.getMedicalHistory().getId()));
+        }
+
+
+        // Salvar o FonoEvaluation, se houver alterações
+        if(medicalRecord.getFonoEvaluation() != null){
+            FonoEvaluation existingFonoEvaluation = fonoEvaluationRepository.findById(existingRecord.getFonoEvaluation().getId()).orElseThrow();
+            NullPropertyUtils.copyNonNullProperties(medicalRecord.getFonoEvaluation(), existingFonoEvaluation);
+            FonoEvaluation savedFonoEvaluation = fonoEvaluationRepository.save(existingFonoEvaluation);
+            log.info("Avaliação atualizada {}", savedFonoEvaluation.getId());
+        }
+
+        // Salvar o prontuário atualizado
+        medicalRecordRepository.save(existingRecord);
+        MedicalRecord result = medicalRecordRepository.getReferenceById(id);
+        log.info("Medical record atualizado", result.getMedicalHistory());
+        return existingRecord;
     }
 
     public List<MedicalRecord> getAll() {
@@ -141,7 +204,7 @@ public class MedicalRecordService {
                             medicalRecord.getDate(),
                             medicalRecord.getStaff(),
                             smallPatientDTO
-                            ))
+                    ))
             ;
         });
         return smalLMedicalRecords;
