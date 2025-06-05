@@ -1,15 +1,12 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Questions;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Questions;
 import com.ceuma.connectfono.repositories.QuestionsRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class QuestionsService {
@@ -29,7 +26,7 @@ public class QuestionsService {
         return questionsRepository.saveAll(questions);
     }
 
-    public Questions findById(UUID id){
+    public Questions findById(Long id){
         return questionsRepository.findById(id).orElseThrow(()-> new BadRequestException("Question not found"));
     }
 
@@ -44,7 +41,7 @@ public class QuestionsService {
         return questionsRepository.save(question);
     }
 
-    public void delete(UUID id){
+    public void delete(Long id){
         questionsRepository.deleteById(id);
     }
 

@@ -1,9 +1,9 @@
 package com.ceuma.connectfono.services;
 
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Consultation;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.repositories.ConsultationRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import jakarta.transaction.Transactional;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ConsultationService {
@@ -36,12 +35,12 @@ public class ConsultationService {
         return consultations;
     }
 
-    public Consultation getById(UUID id){
+    public Consultation getById(Long id){
         Optional<Consultation> consultation = this.consultationRepository.findById(id);
         return consultation.orElseThrow(() -> new BadRequestException("Não há consultas cadastradas com esse id"));
     }
 
-    public List<Consultation> getByPatientId(UUID id){
+    public List<Consultation> getByPatientId(Long id){
         Patient patient = patientRepository.findById(id).orElseThrow(
                 ()->{
                     throw new BadRequestException("Não existe nenhum paciente com esse id");
@@ -56,7 +55,7 @@ public class ConsultationService {
     }
 
     @Transactional
-    public Consultation update(Consultation obj, UUID id){
+    public Consultation update(Consultation obj, Long id){
         Consultation newConsultation = getById(id);
         newConsultation.setTitle(obj.getTitle());
         newConsultation.setDescription(obj.getDescription());

@@ -1,11 +1,9 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Logs;
-import com.ceuma.connectfono.responses.GenericResponse;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Logs;
+import com.ceuma.connectfono.core.responses.GenericResponse;
 import com.ceuma.connectfono.services.LogsService;
-import lombok.extern.java.Log;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("logs")
@@ -64,7 +61,7 @@ public class LogsController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody Logs logs){
+    public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody Logs logs){
         Logs logsUpdated = logsService.update(id, logs);
         return ResponseEntity.ok().body(buildSuccessResponse(200, "Log atualizado com sucesso"));
     }

@@ -1,14 +1,13 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Staff;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Staff;
 import com.ceuma.connectfono.repositories.StaffRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StaffService {
@@ -23,7 +22,7 @@ public class StaffService {
     }
 
     @Transactional
-    public Staff update(UUID id,Staff obj){
+    public Staff update(Long id,Staff obj){
         Staff newStaff = staffRepository.findById(id).orElseThrow(
                 () -> new BadRequestException("Não existe um staff com esse id"));
         newStaff.setLevel(obj.getLevel());
@@ -42,7 +41,7 @@ public class StaffService {
         return staffs;
     }
 
-    public Staff getById(UUID id){
+    public Staff getById(Long id){
         Staff staff = this.staffRepository.findById(id).orElse(null);
         if(staff == null){
             throw new BadRequestException("sem staff cadastrado");

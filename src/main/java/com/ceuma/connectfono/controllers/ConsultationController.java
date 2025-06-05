@@ -1,9 +1,9 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.dto.ConsultationRequestDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Consultation;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.dto.ConsultationRequestDTO;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Consultation;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.services.ConsultationService;
 import com.ceuma.connectfono.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/consultation")
+
 public class ConsultationController {
     @Autowired
     ConsultationService consultationService;
@@ -31,7 +31,7 @@ public class ConsultationController {
         Consultation obj = requestDTO.getConsultation();
         LocalTime requestHour = requestDTO.getHour();
 
-        if(requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()){
+        if (requestDTO.getDate().getDayOfMonth() < LocalDate.now().getDayOfMonth()) {
             throw new BadRequestException("Não é possível agendar uma consulta para o passado");
         }
         if (obj == null) {
@@ -44,7 +44,7 @@ public class ConsultationController {
         obj.setStatus("pendente");
         System.out.println("chegou aqui");
 
-        if(obj.getTitle().length() > 12){
+        if (obj.getTitle().length() > 12) {
             throw new BadRequestException("tamanho inválido de titulo: 12 letras no máximo");
         }
 
@@ -70,7 +70,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/patient/{id}")
-    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable UUID id) {
+    public ResponseEntity<List<Consultation>> getConsultationByPatientId(@PathVariable Long id) {
         if (id == null) {
             throw new BadRequestException("O campo id é obrigatório");
         }
@@ -79,7 +79,7 @@ public class ConsultationController {
     }
 
     @PostMapping("/consultation/{id}")
-    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable UUID id) {
+    public ResponseEntity<Object> updateConsutation(@RequestBody Consultation obj, @PathVariable Long id) {
         Consultation newConsultation = this.consultationService.update(obj, id);
         return ResponseEntity.ok().body(newConsultation);
 

@@ -1,18 +1,15 @@
 package com.ceuma.connectfono.services;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.Logs;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.Logs;
 import com.ceuma.connectfono.repositories.LogsRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import com.ceuma.connectfono.repositories.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class LogsService {
@@ -31,7 +28,7 @@ public class LogsService {
         return logs;
     }
 
-    public Logs getById(UUID id){
+    public Logs getById(Long id){
         return logsRepository.findById(id).orElseThrow(
                 ()-> new BadRequestException("Não existe log cadastrado com esse id")
         );
@@ -78,7 +75,7 @@ public class LogsService {
         return logSaved;
     }
 
-    public Logs update(UUID id, Logs logs){
+    public Logs update(Long id, Logs logs){
         Logs newLog = getById(id);
         if(logs.getCpf() != null){
             newLog.setCpf(logs.getCpf());

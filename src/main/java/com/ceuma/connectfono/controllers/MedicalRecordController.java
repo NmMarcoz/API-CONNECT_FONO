@@ -1,20 +1,18 @@
 package com.ceuma.connectfono.controllers;
 
-import com.aspose.pdf.Document;
-import com.ceuma.connectfono.dto.MedicalRecordDTO;
-import com.ceuma.connectfono.dto.SmallMedicalRecordDTO;
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
-import com.ceuma.connectfono.models.MedicalHistory;
-import com.ceuma.connectfono.models.MedicalRecord;
-import com.ceuma.connectfono.responses.GenericResponse;
+import com.ceuma.connectfono.core.dto.MedicalRecordDTO;
+import com.ceuma.connectfono.core.dto.SmallMedicalRecordDTO;
+import com.ceuma.connectfono.core.facades.PdfFacade;
+import com.ceuma.connectfono.core.patient.BadRequestException;
+import com.ceuma.connectfono.core.models.MedicalRecord;
+import com.ceuma.connectfono.core.responses.GenericResponse;
 import com.ceuma.connectfono.services.MedicalRecordService;
 import com.ceuma.connectfono.utils.VerifyUtils;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,13 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URI;
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/medical_record")
@@ -36,7 +29,7 @@ public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    private MedicalRecordPdfController pdfController = new MedicalRecordPdfController();
+    private PdfFacade pdfController = new PdfFacade();
 
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody MedicalRecordDTO medicalRecordDTO) {
@@ -62,6 +55,7 @@ public class MedicalRecordController {
         return ResponseEntity.created(uri).body(medicalRecordDTOSaved);
 
     }
+
     @PostMapping("/v2")
     public ResponseEntity<Object> createv2(@RequestBody MedicalRecord  medicalRecord) {
         if(medicalRecord.getMedicalHistory() == null){
@@ -74,14 +68,15 @@ public class MedicalRecordController {
         MedicalRecord medicalRecordSaved = medicalRecordService.createv2(medicalRecord);
         return ResponseEntity.status(201).body(buildSuccessResponse(201, "prontuario registrado"));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable UUID id){
+    public ResponseEntity<Object> getById(@PathVariable Long id){
         MedicalRecord medicalRecord = medicalRecordService.getById(id);
         return ResponseEntity.ok().body(medicalRecord);
     }
 
     @GetMapping("/staff/{id}")
-    public ResponseEntity<List<MedicalRecord>> getByStaffId(@PathVariable UUID id){
+    public ResponseEntity<List<MedicalRecord>> getByStaffId(@PathVariable Long id){
         List<MedicalRecord> medicalRecordList = medicalRecordService.getByStaffId(id);
         return ResponseEntity.ok().body(medicalRecordList);
     }
@@ -99,8 +94,14 @@ public class MedicalRecordController {
         return ResponseEntity.ok().body(medicalRecords);
     }
 
+    @GetMapping("/staff/cpf/{cpf}")
+    public ResponseEntity<List<SmallMedicalRecordDTO>> getByStaffCpf(@PathVariable String cpf){
+        List<SmallMedicalRecordDTO> medicalRecords = medicalRecordService.getByStaffCpf(cpf);
+        return ResponseEntity.ok().body(medicalRecords);
+    }
+
     @GetMapping("pdf/{id}")
-    public ResponseEntity<Resource> generatePdf(@PathVariable UUID id) {
+    public ResponseEntity<Resource> generatePdf(@PathVariable Long id) {
         try {
             MedicalRecord medicalRecord = medicalRecordService.getById(id);
             System.out.println("achou o medicalRecord");
@@ -144,6 +145,17 @@ public class MedicalRecordController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecord medicalRecord){
+        MedicalRecord medicalRecordUpdated = medicalRecordService.update(id, medicalRecord);
+        return ResponseEntity.ok().body(medicalRecordUpdated);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GenericResponse> update(@PathVariable Long id){
+        medicalRecordService.delete(id);
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "prontuario deletado com sucesso"));
     }
 
     public GenericResponse buildSuccessResponse(int status, String message) {

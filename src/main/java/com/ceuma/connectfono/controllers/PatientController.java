@@ -1,14 +1,17 @@
 package com.ceuma.connectfono.controllers;
 
-import com.ceuma.connectfono.exceptions.patient.BadRequestException;
+import com.ceuma.connectfono.core.adapters.PersonAdapter;
+import com.ceuma.connectfono.core.builders.PatientBuilder;
+import com.ceuma.connectfono.core.decorators.ConcretePersonDecorator;
+import com.ceuma.connectfono.core.patient.BadRequestException;
 import com.ceuma.connectfono.handlers.ErrorResponse;
-import com.ceuma.connectfono.models.Patient;
+import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.repositories.PatientRepository;
-import com.ceuma.connectfono.responses.GenericResponse;
-import com.ceuma.connectfono.responses.PatientResponse;
+import com.ceuma.connectfono.core.responses.GenericResponse;
+import com.ceuma.connectfono.core.responses.PatientResponse;
 import com.ceuma.connectfono.services.PatientService;
 import com.ceuma.connectfono.utils.StringUtils;
-import org.apache.coyote.Response;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +22,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/patient")
 @Validated
+@Transactional
 public class PatientController {
     @Autowired
     private PatientService patientService;
@@ -66,7 +69,7 @@ public class PatientController {
 
     //depois trocar para Patient, pois ainda nao fiz os handlers
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable UUID id) {
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
         System.out.println("entrou");
         if (id == null) {
             throw new BadRequestException("Id não pode ser nulo");
@@ -107,14 +110,26 @@ public class PatientController {
         if(obj.getGender() != 'M' && obj.getGender() != 'F') {
             throw new BadRequestException("Gênero só pode ser M ou F");
         }
+        PatientBuilder patientBuilder = getPatientBuilder(obj);
+        //TODO -> aplicação do builder
+        Patient buildedPatient = patientBuilder.build();
 
-        this.patientService.create(obj);
+        PersonAdapter personAdapter = new PersonAdapter();
+       //TODO -> APlicação do adapter
+        ConcretePersonDecorator decoratedObj = personAdapter.personDecorator(buildedPatient);
+
+        //TODO -> Aplicação do decorator
+        decoratedObj.showInfo();
+
+        this.patientService.create(buildedPatient);
+        //tenho que saber por que exatamente tem que fazer esse fromcurrentrequest com uri.
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(buildSuccessResponse(201, "Usuário cadastrado"));
     }
 
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable UUID id) {
+    public ResponseEntity<Object> update(@RequestBody Patient obj, @PathVariable Long id) {
         if (obj.getName() == null && obj.getEmail() == null && obj.getDependents() == null) {
             throw new BadRequestException("Insira pelo menos um dos campos: Nome, Email ou Dependentes");
         }
@@ -124,7 +139,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable UUID id) {
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         Patient patient = this.patientService.findById(id);
         if(patient == null){
             throw new BadRequestException("O paciente não existe");
@@ -148,5 +163,25 @@ public class PatientController {
     public ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, String message, Exception exception) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
         return ResponseEntity.status(httpStatus).body(errorResponse);
+    }
+
+    private static PatientBuilder getPatientBuilder(Patient obj) {
+        PatientBuilder patientBuilder = new PatientBuilder();
+
+        patientBuilder.setName(obj.getName());
+        patientBuilder.setCpf(obj.getCpf());
+        patientBuilder.setEmail(obj.getEmail());
+        patientBuilder.setGender(obj.getGender());
+        patientBuilder.setType(obj.getType());
+        patientBuilder.setRa(obj.getRa());
+        patientBuilder.setDependents(obj.getDependents());
+        patientBuilder.setAddress(obj.getAddress());
+        patientBuilder.setBirthYear(obj.getBirth_year());
+        patientBuilder.setConsultations(obj.getConsultations());
+        patientBuilder.setOcupation(obj.getOccupation());
+        patientBuilder.setEducationLevel(obj.getEducation_level());
+        patientBuilder.setPhoneNumber(obj.getPhone_number());
+
+        return patientBuilder;
     }
 }
