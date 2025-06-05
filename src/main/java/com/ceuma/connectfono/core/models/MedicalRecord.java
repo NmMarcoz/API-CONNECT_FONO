@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 import com.ceuma.connectfono.core.interfaces.Clonneable;
+import org.hibernate.annotations.Cascade;
 
 @Getter
 @Setter
@@ -51,10 +52,12 @@ public class MedicalRecord implements Clonneable {
     //Avaliação Fonoaudiologica
     @OneToOne
     @JoinColumn(name = "fono_evaluation_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private FonoEvaluation fonoEvaluation;
 
     @OneToOne
     @JoinColumn(name =  "medical_history_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private MedicalHistory medicalHistory;
 
     @Column(name = "diagnosis", columnDefinition = "TEXT")

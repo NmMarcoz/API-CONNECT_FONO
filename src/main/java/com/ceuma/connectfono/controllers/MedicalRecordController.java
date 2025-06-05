@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -150,6 +151,11 @@ public class MedicalRecordController {
     public ResponseEntity<MedicalRecord> update(@PathVariable Long id, @RequestBody MedicalRecord medicalRecord){
         MedicalRecord medicalRecordUpdated = medicalRecordService.update(id, medicalRecord);
         return ResponseEntity.ok().body(medicalRecordUpdated);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GenericResponse> update(@PathVariable Long id){
+        medicalRecordService.delete(id);
+        return ResponseEntity.ok().body(buildSuccessResponse(200, "prontuario deletado com sucesso"));
     }
 
     public GenericResponse buildSuccessResponse(int status, String message) {

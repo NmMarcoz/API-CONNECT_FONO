@@ -142,6 +142,13 @@ public class MedicalRecordService {
         return existingRecord;
     }
 
+    @Transactional
+    public Boolean delete(Long id){
+        MedicalRecord medicalRecord = medicalRecordRepository.findById(id).orElseThrow(()->new BadRequestException("Não foi possível achar o prontuário informado, verifique os dados"));
+        medicalRecordRepository.deleteById(id);
+        return true;
+    }
+
     public List<MedicalRecord> getAll() {
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findAll();
         List<MedicalHistory> medicalHistories = medicalHistoryRepository.findAll();
