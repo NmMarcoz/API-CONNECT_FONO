@@ -1,0 +1,12 @@
+services:
+  connectfonodev:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - db_data:/app/database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/database/app.db
+
+volumes:
+  db_data:

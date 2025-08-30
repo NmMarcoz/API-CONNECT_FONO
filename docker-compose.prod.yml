@@ -1,0 +1,12 @@
+services:
+  connectfonoprod:
+    build: .
+    ports:
+      - "8081:8081"
+    volumes:
+      - db_data:/app/database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/app/database/app.db
+
+volumes:
+  db_data:

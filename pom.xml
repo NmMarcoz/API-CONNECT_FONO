@@ -156,6 +156,7 @@
 
 
 	<build>
+		<finalName>connectfono</finalName>
 		<plugins>
 
 			<plugin>
