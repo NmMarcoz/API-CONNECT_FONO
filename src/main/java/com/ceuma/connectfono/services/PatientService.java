@@ -3,6 +3,7 @@ package com.ceuma.connectfono.services;
 import com.ceuma.connectfono.core.patient.BadRequestException;
 import com.ceuma.connectfono.core.models.Patient;
 import com.ceuma.connectfono.repositories.DependentRepository;
+import com.ceuma.connectfono.repositories.MedicalRecordRepository;
 import com.ceuma.connectfono.repositories.PatientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class PatientService {
 
     @Autowired
     private DependentRepository dependentRepository;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
 
 
     public List<Patient> findAll(){
@@ -90,6 +94,13 @@ public class PatientService {
         return newPatient;
     }
 
-
+    public void delete (Long id){
+        Patient patient = this.findById(id);
+        if(patient == null){
+            throw new BadRequestException("O paciente não existe");
+        }
+        medicalRecordRepository.deleteByPatientID(id);
+        this.patientRepository.delete(patient);
+    }
 
 }

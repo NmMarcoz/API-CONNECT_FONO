@@ -2,6 +2,7 @@ package com.ceuma.connectfono.repositories;
 
 import com.ceuma.connectfono.core.models.MedicalRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,4 +21,8 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
 
     @Query(value = "SELECT * FROM medical_record WHERE staff_id = (SELECT id FROM staff where cpf = :cpf)", nativeQuery = true)
     List<MedicalRecord> getByStaffCpf(@Param("cpf") String cpf);
+
+    @Modifying
+    @Query(value = "DELETE FROM medical_record WHERE patient_id = :patient_id", nativeQuery = true)
+    void deleteByPatientID(@Param("patient_id")Long patientID);
 }

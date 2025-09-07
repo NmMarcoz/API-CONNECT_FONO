@@ -140,11 +140,7 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        Patient patient = this.patientService.findById(id);
-        if(patient == null){
-            throw new BadRequestException("O paciente não existe");
-        }
-        patientRepository.delete(patient);
+        patientService.delete(id);
         return ResponseEntity.ok().body(buildSuccessResponse(200, "paciente deletado com sucesso"));
     }
 

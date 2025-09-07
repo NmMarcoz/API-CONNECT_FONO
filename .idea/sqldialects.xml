@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/ConsultationRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/DependentRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/LogsRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/PatientRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/ConsultationRepository.java" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/DependentRepository.java" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/LogsRepository.java" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/MedicalRecordRepository.java" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/ceuma/connectfono/repositories/PatientRepository.java" dialect="SQLite" />
   </component>
 </project>
