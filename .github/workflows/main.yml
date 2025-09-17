@@ -20,7 +20,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/dev/main/
+            cd /home/ubuntu/dev/main/API-CONNECT_FONO
             git pull origin main
             docker compose down
             docker compose build
