@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: Debug secrets
+        run: | 
+              echo "EC2_HOST = ${{ secrets.EC2_HOST }}"
+              echo "EC2_SSH_KEY = ${{ secrets.EC2_SSH_KEY }}"
       - name: Deploy production
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -16,7 +20,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/seu-repo
+            cd /home/ubuntu/dev/main/
             git pull origin main
             docker compose down
             docker compose build
