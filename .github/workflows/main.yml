@@ -9,11 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - name: Debug secrets
-        run: | 
-              echo "EC2_HOST = ${{ secrets.EC2_HOST }}"
-              echo "EC2_SSH_KEY = ${{ secrets.EC2_SSH_KEY }}"
-      - name: Deploy production
+        run: |
+          if [ -z "${{ secrets.EC2_HOST }}" ]; then echo "EC2_HOST vazio"; else echo "EC2_HOST OK"; fi
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then echo "EC2_SSH_KEY vazio"; else echo "EC2_SSH_KEY OK"; fi
+
+      - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -22,7 +26,7 @@ jobs:
           script: |
             cd /home/ubuntu/main/API-CONNECT_FONO
             git pull origin main
-            mvn clean install -Prelease -X 
+            mvn clean install -Prelease -X   # Compila na EC2 com a JDK que está lá
             docker compose -f docker-compose.prod.yml down
             docker compose -f docker-compose.prod.yml build
             docker compose -f docker-compose.prod.yml up -d
