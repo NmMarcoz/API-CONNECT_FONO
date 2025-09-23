@@ -172,6 +172,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
+                    <source>21</source> <!-- JDK source version -->
+                    <target>21</target> <!-- JDK target version -->
+                    <release>21</release> <!-- Use this for JDK 9+ to ensure API compatibility -->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
