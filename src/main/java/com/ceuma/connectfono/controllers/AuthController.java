@@ -1,5 +1,6 @@
 package com.ceuma.connectfono.controllers;
 
+import com.ceuma.connectfono.core.Globals.GlobalVariables;
 import com.ceuma.connectfono.core.dto.LoginRequestDto;
 import com.ceuma.connectfono.core.dto.TokenDto;
 import com.ceuma.connectfono.core.models.Staff;
@@ -25,7 +26,7 @@ public class AuthController {
 
 
     public AuthResponse buildAuthResponse(TokenDto response) {
-        int expiresIn = 3600; // Token expiration time in seconds (1 hour)
+        int expiresIn = GlobalVariables.TokenExpiresIn; // Token expiration time in seconds (1 hour)
         String message = "Autenticação bem-sucedida";
         return new AuthResponse(response.getToken(), expiresIn, message, response.getStaff());
     }

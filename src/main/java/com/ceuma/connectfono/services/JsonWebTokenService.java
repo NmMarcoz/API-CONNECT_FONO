@@ -1,5 +1,6 @@
 package com.ceuma.connectfono.services;
 
+import com.ceuma.connectfono.core.Globals.GlobalVariables;
 import com.ceuma.connectfono.core.dto.TokenDto;
 import com.ceuma.connectfono.core.models.Staff;
 import com.ceuma.connectfono.core.patient.BadRequestException;
@@ -32,7 +33,7 @@ public class JsonWebTokenService {
         String token = Jwts.builder()
                 .subject(staff.getName())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 600000))
+                .expiration(new Date(System.currentTimeMillis() + GlobalVariables.TokenExpiresIn))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
         return new TokenDto(token, staff);
