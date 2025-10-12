@@ -11,7 +11,7 @@ import lombok.Setter;
 public class AuthResponse {
     private String accessToken;
     private int expiresIn;
-    private String message;P
+    private String message;
     Staff staff;
 
 
