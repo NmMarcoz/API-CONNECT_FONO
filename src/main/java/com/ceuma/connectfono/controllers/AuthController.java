@@ -28,7 +28,7 @@ public class AuthController {
     public AuthResponse buildAuthResponse(TokenDto response) {
         int expiresIn = GlobalVariables.TokenExpiresIn; // Token expiration time in seconds (1 hour)
         String message = "Autenticação bem-sucedida";
-        return new AuthResponse(response.getToken(), expiresIn, message, response.getStaff());
+        return new AuthResponse(response.getToken(), expiresIn / 1000, message, response.getStaff());
     }
 
 }
