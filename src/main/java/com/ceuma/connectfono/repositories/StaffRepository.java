@@ -13,4 +13,7 @@ public interface StaffRepository extends JpaRepository <Staff, Long> {
 
     @Query(value = "SELECT * FROM staff WHERE cpf = :cpf", nativeQuery = true)
     Optional<Staff> findByCpf(@Param("cpf") String cpf);
+
+    @Query(value = "SELECT * FROM staff WHERE email = :email", nativeQuery = true)
+    Optional<Staff> findByEmail(@Param("email") String email);
 }
