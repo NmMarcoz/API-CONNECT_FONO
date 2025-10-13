@@ -21,6 +21,7 @@ target/
 .idea
 
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -42,6 +43,11 @@ build/
 
 **.db
 .env
+
+deploy-prod.bash
+
+*.bash
+**.bashd
 
 */medicalRecordsPdf
 /medicalRecordsPdf
